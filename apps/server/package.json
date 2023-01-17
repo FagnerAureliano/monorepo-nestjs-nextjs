@@ -10,10 +10,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@prisma/client": "^4.8.1",
-    "@types/bcrypt": "^5.0.0"
-  },
-  "dependencies": {
-    "bcrypt": "^5.1.0"
-  }
+   
+  } 
 }

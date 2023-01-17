@@ -1,11 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
 import { MessagesHelper } from '../../../helpers/message.helper';
-import { UserRepository } from '../../repositories/user.repository';
+import { validateEmail } from '../../../utils/validate-email.utils';
+import { PrismaService } from '../../database/prisma.client';
+import { IUser } from '../../interfaces/user.interface';
 
 type CreateUserRequest = {
-  email: string;
-  username?: string;
+  email?: string;
   name?: string;
   photo?: string | undefined;
   password: string;
@@ -15,31 +17,39 @@ type CreateUserResponse = any;
 
 @Injectable()
 export class CreateUserUseCase {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private prisma: PrismaService) {}
 
   async execute({
     email,
     name,
-    username,
     photo,
     password,
   }: CreateUserRequest): Promise<CreateUserResponse> {
-    const alreadyExists = await this.userRepository.findByEmail(email);
+    if (!validateEmail(email)) {
+      throw new BadRequestException(MessagesHelper.INVALID_EMAIL_ADDRESS);
+    }
+
+    const alreadyExists = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
 
     if (alreadyExists) {
-      throw new BadRequestException(MessagesHelper.USER_ALREADY_EXISTENT);
+      throw new BadRequestException(MessagesHelper.USER_ALREADY_EXISTS);
     }
 
     const hashPassword = await hash(password, 10);
 
-    const user = await this.userRepository.create({
-      email,
-      name,
-      username,
-      photo,
-      password: hashPassword,
+    const user = await this.prisma.user.create({
+      data: {
+        email,
+        name,
+        photo,
+        password: hashPassword,
+      },
     });
 
-    return user;
+    return user
   }
 }

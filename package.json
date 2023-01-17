@@ -55,6 +55,7 @@
     "jest-environment-jsdom": "28.1.1",
     "nx": "15.5.1",
     "prettier": "^2.6.2",
+    "prisma": "^4.8.1",
     "react-test-renderer": "18.2.0",
     "sass": "1.55.0",
     "ts-jest": "28.0.5",

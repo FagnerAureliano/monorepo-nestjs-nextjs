@@ -1,10 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { hash } from 'bcrypt';
-import { sign } from 'jsonwebtoken';
 import { MessagesHelper } from '../../../helpers/message.helper';
 import { validateEmail } from '../../../utils/validate-email.utils';
 import { PrismaService } from '../../database/prisma.client';
-import { IUser } from '../../interfaces/user.interface';
 
 type CreateUserRequest = {
   email?: string;

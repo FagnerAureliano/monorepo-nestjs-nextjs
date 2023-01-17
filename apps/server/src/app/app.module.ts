@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ControllerModule } from './application/controllers/controller.module'; 
-import { PrismaService } from './application/database/prisma.client';
+import { HttpModule } from './application/http/http.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ControllerModule],
+  imports: [HttpModule, AuthModule],
   controllers: [],
   providers: [],
 })

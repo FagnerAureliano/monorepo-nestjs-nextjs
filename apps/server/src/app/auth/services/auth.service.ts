@@ -20,7 +20,7 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     let user: IUser;
     try {
-      user = await this.findUserService.execute(email);
+      user = await this.findUserService.findByEmail(email);
     } catch (error) {
       return null;
     }

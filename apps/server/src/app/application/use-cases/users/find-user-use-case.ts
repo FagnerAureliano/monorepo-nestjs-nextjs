@@ -7,13 +7,22 @@ import { PrismaService } from '../../database/prisma.client';
 export class FindUserUseCase {
   constructor(private prisma: PrismaService) {}
 
-  async execute(email: string) {
-    
+  async findByEmail(email: string) {
     if (!validateEmail(email))
       throw new UnauthorizedException(MessagesHelper.INVALID_EMAIL_ADDRESS);
     try {
-      return this.prisma.user.findFirst({
+      return this.prisma.user.findUniqueOrThrow({
         where: { email },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async findById(id: string) {
+    try {
+      return this.prisma.user.findUniqueOrThrow({
+        where: { id },
       });
     } catch (error) {
       throw new Error(error);

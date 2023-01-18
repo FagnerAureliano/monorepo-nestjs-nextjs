@@ -5,6 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UseCasesModule } from '../application/use-cases/use-cases.module';
 import { AuthController } from './controller/auth.controller';
 import { AuthService } from './services/auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
@@ -14,10 +15,10 @@ import { LocalStrategy } from './strategies/local.strategy';
     UseCasesModule,
     JwtModule.register({
       privateKey: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: '3600' },
+      signOptions: { expiresIn: '3600s' },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}

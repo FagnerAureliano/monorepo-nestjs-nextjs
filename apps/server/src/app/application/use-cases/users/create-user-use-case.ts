@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { MessagesHelper } from '../../../helpers/message.helper';
 import { validateEmail } from '../../../utils/validate-email.utils';
@@ -39,15 +40,19 @@ export class CreateUserUseCase {
 
     const hashPassword = await hash(password, 10);
 
-    const user = await this.prisma.user.create({
-      data: {
-        email,
-        name,
-        photo,
-        password: hashPassword,
-      },
-    });
-
-    return user
+    let user: User;
+    try {
+      user = await this.prisma.user.create({
+        data: {
+          email,
+          name,
+          photo,
+          password: hashPassword,
+        },
+      });
+      return user;
+    } catch (error) {
+      throw new BadRequestException(`Erro ao tentar cadastrar. ${error.message}`);
+    }
   }
 }

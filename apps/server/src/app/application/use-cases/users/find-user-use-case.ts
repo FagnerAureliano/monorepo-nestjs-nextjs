@@ -7,7 +7,7 @@ import { PrismaService } from '../../database/prisma.client';
 export class FindUserUseCase {
   constructor(private prisma: PrismaService) {}
 
-  async execute(email: string, password: string) {
+  async execute(email: string) {
     
     if (!validateEmail(email))
       throw new UnauthorizedException(MessagesHelper.INVALID_EMAIL_ADDRESS);

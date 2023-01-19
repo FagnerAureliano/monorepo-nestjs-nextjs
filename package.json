@@ -4,10 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start:server": "rm -rf dist && nx serve server",
-    "start:web": "nx serve web"
+    "start:web": "rm -rf dist &&  nx serve web"
   },
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
@@ -17,6 +19,8 @@
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "formik": "^2.2.9",
+    "heroicons": "^2.0.13",
     "jsonwebtoken": "^9.0.0",
     "next": "13.1.1",
     "passport": "^0.6.0",
@@ -56,6 +60,7 @@
     "@types/react-dom": "18.0.9",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
+    "autoprefixer": "10.4.13",
     "babel-jest": "28.1.1",
     "cypress": "^12.2.0",
     "eslint": "~8.15.0",
@@ -69,10 +74,12 @@
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "nx": "15.5.1",
+    "postcss": "8.4.19",
     "prettier": "^2.6.2",
     "prisma": "^4.8.1",
     "react-test-renderer": "18.2.0",
     "sass": "1.55.0",
+    "tailwindcss": "3.2.4",
     "ts-jest": "28.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.8.2"

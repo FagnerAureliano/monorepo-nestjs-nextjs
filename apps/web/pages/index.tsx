@@ -3,11 +3,9 @@ import { Formik, Form, Field } from 'formik';
 import Link from 'next/link';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
-
-interface ISignIn {
-  email: string;
-  password: string;
-}
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/auth.context';
+import { LoginProps } from '../services/user-service';
 
 const Login: NextPage = () => {
   const initialValues = {
@@ -15,16 +13,14 @@ const Login: NextPage = () => {
     password: '',
   };
 
-  // const { signIn } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
-  async function handleSignIn({ email, password }: ISignIn) {
-    console.log(email, password);
-
-    // try {
-    //   await signIn({ email, password });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  async function handleSignIn({ email, password }: LoginProps) {
+    try {
+      await signIn({ email, password });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -43,9 +39,7 @@ const Login: NextPage = () => {
               Entre com sua conta
             </h2>
           </div>
-          <Link href="/dogs">
-            dogs
-          </Link>
+          <Link href="/dogs">dogs</Link>
           <Formik initialValues={initialValues} onSubmit={handleSignIn}>
             <Form className="mt-8 space-y-6" action="#" method="POST">
               <input type="hidden" name="remember" defaultValue="true" />

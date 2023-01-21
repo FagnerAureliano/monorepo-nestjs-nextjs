@@ -1,16 +1,23 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './../styles/styles.css';
+import { useContext } from 'react';
+import { AuthContext, AuthProvider } from '../contexts/auth.context';
+import './../styles/global.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
+  const { isAuthenticated } = useContext(AuthContext);
+  console.log(isAuthenticated);
+  
   return (
     <>
       <Head>
         <title>Test Monorepo - Web</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
+      <AuthProvider>
+        <main className="app">
+          <Component {...pageProps} />
+        </main>
+      </AuthProvider>
     </>
   );
 }

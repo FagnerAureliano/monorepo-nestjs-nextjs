@@ -14,5 +14,12 @@ class UserService {
       return error;
     }
   }
+  async findById(id: string) {
+    try {
+      return await api.get(`/users/${id}`);
+    } catch (error) {
+      return error;
+    }
+  }
 }
 export default new UserService();

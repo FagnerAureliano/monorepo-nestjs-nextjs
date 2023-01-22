@@ -1,18 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { AuthContext } from 'apps/web/contexts/auth.context';
+import Image from 'next/image';
 
 export interface LayoutProps {
   children: React.ReactNode;
   title: string;
 }
 
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-};
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Team', href: '#', current: false },
@@ -31,16 +28,12 @@ function classNames(...classes) {
 }
 
 export function Layout({ children, title }: LayoutProps) {
+  const { user } = useContext(AuthContext);
+  const userPhoto = `data:image/png;base64,${user?.photo}`;
+  console.log(user);
+
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
@@ -49,9 +42,10 @@ export function Layout({ children, title }: LayoutProps) {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      <Image
+                        width={32}
+                        height={32}
+                        src="/images/logo.png"
                         alt="Your Company"
                       />
                     </div>
@@ -90,10 +84,12 @@ export function Layout({ children, title }: LayoutProps) {
                         <div>
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
-                            <img
+                            <Image
+                              width={20}
+                              height={20}
                               className="h-8 w-8 rounded-full"
-                              src={user.imageUrl}
-                              alt=""
+                              src={userPhoto ? userPhoto : null}
+                              alt="User photo"
                             />
                           </Menu.Button>
                         </div>
@@ -108,7 +104,7 @@ export function Layout({ children, title }: LayoutProps) {
                         >
                           <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
-                              <Menu.Item key={item.name}>
+                              <Menu.Item key={item?.name}>
                                 {({ active }) => (
                                   <a
                                     href={item.href}
@@ -117,7 +113,7 @@ export function Layout({ children, title }: LayoutProps) {
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
-                                    {item.name}
+                                    {item?.name}
                                   </a>
                                 )}
                               </Menu.Item>
@@ -169,18 +165,20 @@ export function Layout({ children, title }: LayoutProps) {
                 <div className="border-t border-gray-700 pt-4 pb-3">
                   <div className="flex items-center px-5">
                     <div className="flex-shrink-0">
-                      <img
+                      <Image
+                        width={24}
+                        height={24}
                         className="h-10 w-10 rounded-full"
-                        src={user.imageUrl}
+                        src={userPhoto ? userPhoto : null}
                         alt=""
                       />
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium leading-none text-white">
-                        {user.name}
+                        {user?.name}
                       </div>
                       <div className="text-sm font-medium leading-none text-gray-400">
-                        {user.email}
+                        {user?.email}
                       </div>
                     </div>
                     <button
@@ -210,13 +208,15 @@ export function Layout({ children, title }: LayoutProps) {
         </Disclosure>
 
         <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-        </div>
-      </header>
+          <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
+          </div>
+        </header>
         <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{children}</div>
-      </main>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {children}
+          </div>
+        </main>
       </div>
     </>
   );

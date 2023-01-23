@@ -5,8 +5,7 @@ import { AuthContext, AuthProvider } from '../contexts/auth.context';
 import './../styles/global.css';
 
 function CustomApp({ Component, pageProps }: AppProps) {
-  const { isAuthenticated } = useContext(AuthContext);
-  console.log(isAuthenticated);
+  // const { isAuthenticated } = useContext(AuthContext); 
   
   return (
     <>

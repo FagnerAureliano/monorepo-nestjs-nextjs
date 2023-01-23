@@ -6,9 +6,10 @@ export interface LoginProps {
 }
 
 class UserService {
-  async login(body: LoginProps) {
+  async login({ email, password }: LoginProps) { 
+    
     try {
-      const { data } = await api.post('/auth/login', body);
+      const { data } = await api.post('/auth/login', { email, password });
       return data;
     } catch (error) {
       return error;

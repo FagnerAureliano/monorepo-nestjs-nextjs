@@ -4,6 +4,7 @@ import { parseCookies, setCookie } from 'nookies';
 
 import userService from '../services/user-service';
 import Router from 'next/router';
+import { api } from '../api';
 
 type AuthContextTypes = {
   isAuthenticated: boolean;
@@ -33,9 +34,10 @@ export function AuthProvider({ children }) {
   const isAuthenticated = !!user;
 
   useEffect(() => {
-    const { monorepo_auth_token: token } = parseCookies();
-    if (token) {
-      const decoded: Payload = jwt_decode(token); 
+    const { monorepo_auth_token } = parseCookies();
+
+    if (monorepo_auth_token) {
+      const decoded: Payload = jwt_decode(monorepo_auth_token);
 
       const findUser = async () => {
         const { data } = await userService.findById(decoded.sub);
@@ -51,19 +53,18 @@ export function AuthProvider({ children }) {
   }, []);
 
   async function signIn({ email, password }: LoginProps) {
-    const { token } = await userService.login({ email, password });
-
-    const decoded: Payload = jwt_decode(token);
-
-    setUser({
-      id: decoded.sub,
-      name: decoded.name,
-      email: decoded.email,
-      photo: decoded.photo,
-    });
+    const { user, token } = await userService.login({ email, password });
 
     setCookie(undefined, 'monorepo_auth_token', token, {
       maxAge: 60 * 60 * 1, // 1 hour
+    });
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    setUser({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      photo: user.photo,
     });
 
     Router.push('/dogs');

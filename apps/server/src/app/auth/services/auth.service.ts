@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '@prisma/client';
 import { compareSync } from 'bcrypt';
 import { IUser } from '../../application/interfaces/user.interface';
 import { FindUserUseCase } from '../../application/use-cases/users/find-user-use-case';
@@ -11,10 +12,12 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async login(user: any) {
-    const payload = { sub: user.id, email: user.email, photo: user.photo };
+  async login(user: User) {
+    user = await this.findUserService.findByEmail(user.email);
+    const payload = { sub: user.id, email: user.email };
     return {
       token: this.jwtService.sign(payload),
+      user,
     };
   }
   async validateUser(email: string, password: string) {

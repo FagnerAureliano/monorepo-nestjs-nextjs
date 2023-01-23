@@ -1,9 +1,11 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { AuthContext } from 'apps/web/contexts/auth.context';
 import Image from 'next/image';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { api } from 'apps/web/api';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -30,7 +32,15 @@ function classNames(...classes) {
 export function Layout({ children, title }: LayoutProps) {
   const { user } = useContext(AuthContext);
   const userPhoto = `data:image/png;base64,${user?.photo}`;
-  console.log(user);
+
+  useEffect(() => {
+    const list = async () => {
+      const {data} = await api.get('/users');
+      console.log(data);
+      return null;
+    };
+    list();
+  }, []);
 
   return (
     <>

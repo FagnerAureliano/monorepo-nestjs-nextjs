@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start:server": "rm -rf dist && nx serve server",
-    "start:web": "rm -rf dist &&  nx serve web"
+    "start:web": "rm -rf next &&  nx serve web"
   },
   "private": true,
   "dependencies": {

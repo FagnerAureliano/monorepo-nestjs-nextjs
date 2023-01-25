@@ -15,11 +15,10 @@ export interface LayoutProps {
 }
 
 const navigation: any = [
-  { name: 'Random Dogs', href: '#', current: true },
+  { name: 'Random Dogs', href: '/dogs', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'Clients', href: '/clients', current: false }, 
 ];
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -27,7 +26,7 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 

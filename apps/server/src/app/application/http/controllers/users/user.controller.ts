@@ -1,5 +1,4 @@
 import { Delete, HttpCode, HttpStatus, ParseUUIDPipe, Patch } from '@nestjs/common';
-import { Put } from '@nestjs/common';
 import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';

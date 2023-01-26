@@ -6,18 +6,19 @@ import { AuthContext } from 'apps/web/contexts/auth.context';
 import Image from 'next/image';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { api } from 'apps/web/api';
+import Link from 'next/link';
 
 export interface LayoutProps {
   children: React.ReactNode;
   title: string;
+  pageActive: boolean;
 }
 
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
+const navigation: any = [
+  { name: 'Random Dogs', href: '/dogs', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'Clients', href: '/clients', current: false }, 
 ];
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -25,17 +26,26 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function Layout({ children, title }: LayoutProps) {
+export function Layout({ children, title, pageActive }: LayoutProps) {
   const { user } = useContext(AuthContext);
   const userPhoto = user?.photo != null?  `data:image/png;base64,${user?.photo}` : "/images/avatar.jpg"
 
+  function handleNav(item) {
+    navigation.forEach((element) => {
+      element.current = false;
+    });
+
+    const index = navigation.findIndex((res) => res.name === item.name);
+    navigation[index].current = true;
+  }
+
   useEffect(() => {
     const list = async () => {
-      const {data} = await api.get('/users');
+      const { data } = await api.get('/users');
       console.log(data);
       return null;
     };
@@ -63,9 +73,10 @@ export function Layout({ children, title }: LayoutProps) {
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
                         {navigation.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
                             href={item.href}
+                            onClick={() => handleNav(item)}
                             className={classNames(
                               item.current
                                 ? 'bg-gray-900 text-white'
@@ -75,7 +86,7 @@ export function Layout({ children, title }: LayoutProps) {
                             aria-current={item.current ? 'page' : undefined}
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -117,7 +128,7 @@ export function Layout({ children, title }: LayoutProps) {
                             {userNavigation.map((item) => (
                               <Menu.Item key={item?.name}>
                                 {({ active }) => (
-                                  <a
+                                  <Link
                                     href={item.href}
                                     className={classNames(
                                       active ? 'bg-gray-100' : '',
@@ -125,7 +136,7 @@ export function Layout({ children, title }: LayoutProps) {
                                     )}
                                   >
                                     {item?.name}
-                                  </a>
+                                  </Link>
                                 )}
                               </Menu.Item>
                             ))}

@@ -31,7 +31,7 @@ function classNames(...classes) {
 
 export function Layout({ children, title }: LayoutProps) {
   const { user } = useContext(AuthContext);
-  const userPhoto = `data:image/png;base64,${user?.photo}`;
+  const userPhoto = user?.photo != null?  `data:image/png;base64,${user?.photo}` : "/images/avatar.jpg"
 
   useEffect(() => {
     const list = async () => {
@@ -53,8 +53,9 @@ export function Layout({ children, title }: LayoutProps) {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <Image
-                        width={32}
-                        height={32}
+                        width={34}
+                        height={34}
+                        className="rounded-full"
                         src="/images/logo.png"
                         alt="Your Company"
                       />

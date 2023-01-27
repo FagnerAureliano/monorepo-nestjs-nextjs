@@ -1,6 +1,6 @@
 import { Delete, HttpCode, HttpStatus, ParseUUIDPipe, Patch } from '@nestjs/common';
 import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from '@nestjs/passport'; 
 import { User } from '@prisma/client';
 import { IUser } from '../../../interfaces/user.interface';
 import { CreateUserUseCase } from '../../../use-cases/users/create-user-use-case';
@@ -10,7 +10,7 @@ import { ListUserUseCase } from '../../../use-cases/users/list-users-use-case';
 import { UpdateUserUseCase } from '../../../use-cases/users/update-user-use-case';
 
 @Controller('users')
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 export class UserController {
   constructor(
     private readonly createUser: CreateUserUseCase,

@@ -15,7 +15,7 @@ export interface LayoutProps {
 }
 
 const navigation: any = [
-  { name: 'Random Dogs', href: '/dogs', current: true },
+  { name: 'Random Cats', href: '/cats', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
   { name: 'Clients', href: '/clients', current: false }, 

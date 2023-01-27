@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
       photo: user.photo,
     });
 
-    Router.push('/dogs');
+    Router.push('/cats');
   }
 
   return (

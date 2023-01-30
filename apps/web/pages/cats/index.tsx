@@ -12,7 +12,7 @@ const Cats: NextPage = ({ data }: Props) => {
 
   async function handleRefresh() {
     setLoading(true);
-    let catImage = await CatsService.getRandomCats();
+    const catImage = await CatsService.getRandomCats();
     setCatImage(catImage);
     setLoading(false);
   }
@@ -51,7 +51,7 @@ const Cats: NextPage = ({ data }: Props) => {
 export default Cats;
 
 export const getServerSideProps = async (context) => {
-  let data = await CatsService.getRandomCats();
+  const data = await CatsService.getRandomCats();
 
   return {
     props: {

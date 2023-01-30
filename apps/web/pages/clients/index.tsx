@@ -1,8 +1,10 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { Layout } from '../components/layout';
 import { Table } from '../components/table';
 
 const Clients: NextPage = () => {
+    const nav = useRouter()
   const columns = [
     { field: 'name', header: 'Nome' },
     { field: 'email', header: 'E-mail' },
@@ -23,6 +25,13 @@ const Clients: NextPage = () => {
   function handleDelete(data) {
     console.log(data);
   }
+  
+function handleUpdate(id) {
+        // console.log(data);
+        
+    nav.push(`/clients/update/${id}`)
+  }
+  
 
   return (
     <>
@@ -31,6 +40,7 @@ const Clients: NextPage = () => {
           columns={column}
           data={TableData}
           handleDelete={handleDelete}
+          handleUpdate={handleUpdate}
         ></Table>
       </Layout>
     </>
@@ -40,7 +50,7 @@ export default Clients;
 
 export const getServerSideProps = async (context) => {
   const ctx = context;
-  console.log(ctx);
+//   console.log(ctx);
 
   return {
     props: {},

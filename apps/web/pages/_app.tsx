@@ -10,7 +10,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Test Monorepo - Web</title>
+        <title>🚀  - Monorepo</title>
       </Head>
       <AuthProvider>
         <main className="app">

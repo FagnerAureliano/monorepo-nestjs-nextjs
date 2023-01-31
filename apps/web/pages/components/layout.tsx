@@ -46,7 +46,7 @@ export function Layout({ children, title, pageActive }: LayoutProps) {
   useEffect(() => {
     const list = async () => {
       const { data } = await api.get('/users');
-      console.log(data);
+      // console.log(data);
       return null;
     };
     list();

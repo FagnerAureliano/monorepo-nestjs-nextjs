@@ -1,10 +1,13 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import { Layout } from '../components/layout';
 import { Table } from '../components/table';
+import axios from 'axios';
+// import { Table } from '../components/table';
 
 const Clients: NextPage = () => {
-    const nav = useRouter()
+  const nav = useRouter();
   const columns = [
     { field: 'name', header: 'Nome' },
     { field: 'email', header: 'E-mail' },
@@ -13,35 +16,48 @@ const Clients: NextPage = () => {
     { field: 'cpf', header: 'CPF' },
     { field: 'actions', header: '' },
   ];
-  const TableData = [
-    { id: 1, fullName: 'Noor Khan', age: 25, city: 'Patna' },
-    { id: 2, fullName: 'Rapsan Jani', age: 26, city: 'Noida' },
-    { id: 3, fullName: 'Monika Singh', age: 18, city: 'New Delhi' },
-    { id: 4, fullName: 'Sunil Kumar', age: 22, city: 'Jaipur' },
-    { id: 5, fullName: 'Kajol Kumari', age: 21, city: 'Chennai' },
-  ];
-  const column = Object.keys(TableData[0]);
+
+  // const column = Object.keys(TableData[0]);
 
   function handleDelete(data) {
     console.log(data);
   }
-  
-function handleUpdate(id) {
-        // console.log(data);
-        
-    nav.push(`/clients/update/${id}`)
+
+  function handleUpdate(data) {
+    console.log(data);
+    console.log(data.id.value);
+
+    // nav.push(`/clients/update/${id}`);
   }
-  
+
+  const [dataTable, setDataTable] = useState([]);
+
+  useEffect(() => {
+    axios('https://randomuser.me/api/?results=5')
+      .then((res) => {
+        setDataTable(res.data.results);
+        console.log(res.data.results);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const column = [
+    { heading: 'Name', value: 'login.username' },
+    { heading: 'Email', value: 'email' },
+    { heading: 'Phone', value: 'cell' },
+    { heading: 'City', value: 'location.city' },
+  ];
 
   return (
     <>
       <Layout title="Clients" pageActive={true}>
         <Table
-          columns={column}
-          data={TableData}
+          data={dataTable}
+          column={column}
           handleDelete={handleDelete}
           handleUpdate={handleUpdate}
-        ></Table>
+          isEditable={false}
+        />
       </Layout>
     </>
   );
@@ -50,7 +66,7 @@ export default Clients;
 
 export const getServerSideProps = async (context) => {
   const ctx = context;
-//   console.log(ctx);
+  //   console.log(ctx);
 
   return {
     props: {},

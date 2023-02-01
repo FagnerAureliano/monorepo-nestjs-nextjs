@@ -1,7 +1,7 @@
-import { NextPage } from 'next'; 
-import { Layout } from '../../components/layout';
+import { NextPage, InferGetServerSidePropsType } from 'next'; 
+import { Layout } from '../../../components/layout';
 
-const Clients: NextPage = () => {
+const Clients: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <>
       <Layout title="Clients" pageActive={true}>

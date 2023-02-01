@@ -1,9 +1,9 @@
-import { NextPage } from 'next';
+import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { Layout } from '../components/layout';
-import { Table } from '../components/table';
 import axios from 'axios';
+import { Layout } from 'apps/web/components/layout';
+import { Table } from 'apps/web/components/table';
 // import { Table } from '../components/table';
 
 const Clients: NextPage = () => {
@@ -50,7 +50,7 @@ const Clients: NextPage = () => {
 
   return (
     <>
-      <Layout title="Clients" pageActive={true}>
+      <Layout title="Clients">
         <Table
           data={dataTable}
           column={column}

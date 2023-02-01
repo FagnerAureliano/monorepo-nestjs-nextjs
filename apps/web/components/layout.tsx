@@ -11,14 +11,13 @@ import Link from 'next/link';
 export interface LayoutProps {
   children: React.ReactNode;
   title: string;
-  pageActive: boolean;
 }
 
 const navigation: any = [
   { name: 'Random Cats', href: '/cats', current: true },
-  { name: 'Team', href: '#', current: false },
+  { name: 'Users', href: '/random-users', current: false },
   { name: 'Projects', href: '#', current: false },
-  { name: 'Clients', href: '/clients', current: false }, 
+  { name: 'Clients', href: '/clients', current: false },
 ];
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -30,9 +29,12 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-export function Layout({ children, title, pageActive }: LayoutProps) {
+export function Layout({ children, title }: LayoutProps) {
   const { user } = useContext(AuthContext);
-  const userPhoto = user?.photo != null?  `data:image/png;base64,${user?.photo}` : "/images/avatar.jpg"
+  const userPhoto =
+    user?.photo != null
+      ? `data:image/png;base64,${user?.photo}`
+      : '/images/avatar.jpg';
 
   function handleNav(item) {
     navigation.forEach((element) => {

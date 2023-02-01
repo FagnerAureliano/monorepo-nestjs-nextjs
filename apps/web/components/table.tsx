@@ -6,7 +6,7 @@ type TableProps = {
   column: any[];
   isEditable: boolean;
   handleDelete(data: any): void;
-  handleUpdate(data: number): void;
+  handleUpdate(data: any): void;
 };
 
 export function Table({

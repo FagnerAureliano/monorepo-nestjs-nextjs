@@ -1,12 +1,12 @@
-import { NextPage } from 'next';
+import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useState } from 'react';
-import { Layout } from '../components/layout';
+import { Layout } from '../../components/layout';
 import CatsService from '../../services/cats-random';
 interface Props {
   data: string;
 }
 
-const Cats: NextPage = ({ data }: Props) => {
+const Cats: NextPage = ({ data }: InferGetServerSidePropsType<typeof getServerSideProps> ) => {
   const [catImage, setCatImage] = useState<string | null>(data);
   const [loading, setLoading] = useState(false);
 

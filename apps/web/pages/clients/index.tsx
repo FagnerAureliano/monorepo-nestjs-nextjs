@@ -1,3 +1,4 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
@@ -56,7 +57,7 @@ const Clients: NextPage = () => {
           column={column}
           handleDelete={handleDelete}
           handleUpdate={handleUpdate}
-          isEditable={false}
+          isEditable={true}
         />
       </Layout>
     </>

@@ -8,7 +8,7 @@ const { withNx } = require('@nrwl/next/plugins/with-nx');
  **/
 const nextConfig = {
   images: {
-    domains: ['i.pinimg.com', 'tailwindui.com'],
+    domains: ['i.pinimg.com', 'tailwindui.com','purr.objects-us-east-1.dream.io'],
   },
   nx: {
     // Set this to true if you would like to to use SVGR

@@ -1,10 +1,9 @@
+/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Fragment, useContext, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'; 
 import { AuthContext } from 'apps/web/contexts/auth.context';
-import Image from 'next/image';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import Image from 'next/image'; 
 import { api } from 'apps/web/api';
 import Link from 'next/link';
 
@@ -16,7 +15,7 @@ export interface LayoutProps {
 const navigation: any = [
   { name: 'Random Cats', href: '/cats', current: true },
   { name: 'Users', href: '/random-users', current: false },
-  { name: 'Projects', href: '#', current: false },
+  { name: 'Http Cats', href: '/httpcat', current: false },
   { name: 'Clients', href: '/clients', current: false },
 ];
 const userNavigation = [

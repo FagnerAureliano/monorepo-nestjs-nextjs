@@ -6,8 +6,8 @@ type TableProps = {
   data: any[];
   column: any[];
   isEditable: boolean;
-  handleDelete(data: any): void;
-  handleUpdate(data: any): void;
+  handleDelete?(data: any): void;
+  handleUpdate?(data: any): void;
 };
 
 export function Table({
@@ -28,7 +28,7 @@ export function Table({
     >
       {column.map((columnItem, index) => {
         if (columnItem.value.includes('.')) {
-          const itemSplit = columnItem.value.split('.'); 
+          const itemSplit = columnItem.value.split('.');
 
           return (
             <td className="px-6 py-4" key={index}>

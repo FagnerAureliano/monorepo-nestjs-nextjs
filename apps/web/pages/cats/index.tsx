@@ -1,4 +1,5 @@
-import { NextPage } from 'next';
+import { Loading } from 'apps/web/components/loading';
+import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useState } from 'react';
 import { Layout } from '../../components/layout';
 import CatsService from '../../services/cats-random';
@@ -6,7 +7,9 @@ interface Props {
   data: string;
 }
 
-const Cats: NextPage = ({ data }: Props) => {
+const Cats: NextPage = ({
+      data,
+    }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [catImage, setCatImage] = useState<string | null>(data);
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +32,9 @@ const Cats: NextPage = ({ data }: Props) => {
           {catImage ? (
             <div>
               {loading ? (
-                <div>Loading...</div>
+                <div className="h-52">
+                  <Loading />
+                </div>
               ) : (
                 <div className="flex justify-center m-2 ">
                   <picture>

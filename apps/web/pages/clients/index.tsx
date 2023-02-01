@@ -7,17 +7,9 @@ import { Layout } from 'apps/web/components/layout';
 import { Table } from 'apps/web/components/table';
 // import { Table } from '../components/table';
 
-const Clients: NextPage = () => {
+const Clients: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const nav = useRouter();
-  const columns = [
-    { field: 'name', header: 'Nome' },
-    { field: 'email', header: 'E-mail' },
-    { field: 'phone', header: 'Telefone' },
-    { field: 'address', header: 'Endereço' },
-    { field: 'cpf', header: 'CPF' },
-    { field: 'actions', header: '' },
-  ];
-
+ 
   // const column = Object.keys(TableData[0]);
 
   function handleDelete(data) {

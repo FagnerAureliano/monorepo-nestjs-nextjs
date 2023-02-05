@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AuthContext, AuthProvider } from '../contexts/auth.context';
 import './../styles/global.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+function CustomApp({ Component, pageProps }) {
   // const { isAuthenticated } = useContext(AuthContext); 
   
   return (

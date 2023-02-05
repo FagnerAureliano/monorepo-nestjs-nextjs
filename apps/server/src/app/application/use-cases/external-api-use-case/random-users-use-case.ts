@@ -8,7 +8,7 @@ export class RandomUsersUseCase {
   async execute() {
     try {
       const { data } = await axios.get(
-        'https://randomuser.me/api/?results=10&inc=name,email,login,dob,picture,location'
+        'https://randomuser.me/api/?results=50&inc=name,email,login,dob,picture,location'
       );
 
       return data.results;

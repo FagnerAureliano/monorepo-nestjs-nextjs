@@ -35,13 +35,28 @@ export function Table({
               {item[itemSplit[0]][itemSplit[1]]}
             </td>
           );
+        } else if (
+          item[`${columnItem.value}`].includes('data:image') ||
+          item[`${columnItem.value}`].includes('http')
+        ) {
+          return (
+            <td className="px-6 py-4" key={index}>
+              <picture>
+                <img
+                  src={item[`${columnItem.value}`]}
+                  className="flex object-fill rounded-lg h-6"
+                  alt="image of cat"
+                />
+              </picture>
+            </td>
+          );
+        } else {
+          return (
+            <td className="px-6 py-4" key={index}>
+              {item[`${columnItem.value}`]}
+            </td>
+          );
         }
-
-        return (
-          <td className="px-6 py-4" key={index}>
-            {item[`${columnItem.value}`]}
-          </td>
-        );
       })}
       {isEditable && (
         <td className="text-center">

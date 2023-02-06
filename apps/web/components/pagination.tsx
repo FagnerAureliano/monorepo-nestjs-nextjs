@@ -1,36 +1,35 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import ReactPaginate from 'react-paginate-next';
 import { Table } from './table';
 
 interface PaginationProps {
   _itemsPerPage: number;
   _pagesToShow: number;
-  items: any[];
-  handlePage(page: number);
+  _itemsLength: number;
+  handlePage(page: number): void;
 }
-const column = [
-  { heading: 'Name', value: 'name.first' },
-  { heading: 'Email', value: 'email' },
-  { heading: 'Username', value: 'login.username' },
-  { heading: 'City', value: 'location.country' },
-  { heading: 'Age', value: 'dob.age' },
-];
+// const column = [
+//   { heading: 'Name', value: 'name.first' },
+//   { heading: 'Email', value: 'email' },
+//   { heading: 'Username', value: 'login.username' },
+//   { heading: 'City', value: 'location.country' },
+//   { heading: 'Age', value: 'dob.age' },
+// ];
 
 const Pagination = ({
-  items,
+  _itemsLength,
   _itemsPerPage,
   handlePage,
   _pagesToShow,
 }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(_itemsPerPage);
-  const [pagesToShow, setPagesToShow] = useState(_pagesToShow);
+  // const [itemsPerPage, setItemsPerPage] = useState(_itemsPerPage);
+  // const [pagesToShow, setPagesToShow] = useState(_pagesToShow);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
   // useEffect(() => {
   //   setItemsPerPage(_itemsPerPage);
@@ -38,26 +37,26 @@ const Pagination = ({
   // }, []);
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(_itemsLength / _itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
   function handlePageChange(pageNumber) {
+    handlePage(pageNumber);
     setCurrentPage(pageNumber);
   }
 
-  const firstPage = currentPage - Math.floor(pagesToShow / 2);
+  const firstPage = currentPage - Math.floor(_pagesToShow / 2);
 
-  const lastPage = currentPage + Math.floor(pagesToShow / 2);
+  const lastPage = currentPage + Math.floor(_pagesToShow / 2);
   const pagesToRender = pageNumbers.filter(
     (page) => page >= firstPage && page <= lastPage
   );
 
   return (
     <>
-      <Table column={column} data={currentItems} isEditable={false}></Table>
+      {/* <Table column={column} data={currentItems} isEditable={false}></Table> */}
 
-      
       <nav className="p-1">
         <ul className="text-right ">
           {currentPage !== 1 && (
@@ -80,7 +79,7 @@ const Pagination = ({
             </div>
           ))}
 
-          {currentPage !== Math.ceil(items.length / itemsPerPage) && (
+          {currentPage !== Math.ceil(_itemsLength / _itemsPerPage) && (
             <button
               onClick={() => handlePageChange(lastPage)}
               className="relative inline-flex items-center active:bg-gray-300 rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"

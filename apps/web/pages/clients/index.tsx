@@ -5,12 +5,19 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Layout } from 'apps/web/components/layout';
 import { Table } from 'apps/web/components/table';
+import Pagination from 'apps/web/components/pagination';
+import { Loading } from 'apps/web/components/loading';
+import { Input } from 'apps/web/components/input';
 // import { Table } from '../components/table';
 
-const Clients: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Clients: NextPage = ({ data }: any) => {
+  console.log(data);
+
   const nav = useRouter();
- 
-  // const column = Object.keys(TableData[0]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [pagesToShow, setPagesToShow] = useState(5);
 
   function handleDelete(data) {
     console.log(data);
@@ -18,39 +25,107 @@ const Clients: NextPage = (props: InferGetServerSidePropsType<typeof getServerSi
 
   function handleUpdate(data) {
     console.log(data);
+
     console.log(data.id.value);
 
     // nav.push(`/clients/update/${id}`);
   }
 
   const [dataTable, setDataTable] = useState([]);
+  const [totalCount, setTotalCount] = useState();
 
   useEffect(() => {
-    axios('https://randomuser.me/api/?results=5')
-      .then((res) => {
-        setDataTable(res.data.results);
-        console.log(res.data.results);
-      })
-      .catch((err) => console.log(err));
+    async function axiosRequest() {
+      const aa = await axios('http://localhost:3000/clients?_page=1&_limit=5')
+      setDataTable(aa.data);
+          setTotalCount(aa.headers[`x-total-count`]);
+
+          console.log(aa.headers);
+          console.log(totalCount);
+      // .then((res) => {
+        //   setDataTable(res.data);
+        //   setTotalCount(res.headers[`x-total-count`]);
+
+        //   console.log(res);
+        //   console.log(totalCount);
+        // })
+        // .catch((err) => console.log(err));
+    }
+    axiosRequest();
   }, []);
 
   const column = [
-    { heading: 'Name', value: 'login.username' },
+    { heading: 'Photo', value: 'photo' },
+    { heading: 'Name', value: 'first_name' },
     { heading: 'Email', value: 'email' },
-    { heading: 'Phone', value: 'cell' },
-    { heading: 'City', value: 'location.city' },
+    { heading: 'Phone', value: 'phone' },
   ];
+  function handlePage(pageNumber: number) {
+    setCurrentPage(pageNumber);
+    async function axiosRequest() {
+      const aa =  await axios(
+        `http://localhost:3000/clients?_page=${currentPage}&_limit=5 `
+      )
+      setDataTable(aa.data);
+          setTotalCount(aa.headers[`x-total-count`]);
 
+          console.log(aa.headers);
+          console.log(totalCount);
+        // .then((res) => {
+        //   setDataTable(res.data);
+        //   setTotalCount(res.headers[`x-total-count`]);
+
+        //   console.log(res.headers);
+        //   console.log(totalCount);
+        // })
+        // .catch((err) => console.log(err));
+    }
+    axiosRequest();
+
+    console.log(pageNumber);
+  }
+  function handleInputChange(data) {
+    async function axiosRequest() {
+     const aa = await axios(
+        `http://localhost:3000/clients?_page=${0}&_limit=5&first_name_like=${data}`
+      )
+      
+        // .then((res) => {
+          setDataTable(aa.data);
+          setTotalCount(aa.headers[`x-total-count`]);
+
+          console.log(aa.headers);
+          console.log(totalCount);
+        // })
+        // .catch((err) => console.log(err));
+    }
+    axiosRequest();
+  }
   return (
     <>
       <Layout title="Clients">
-        <Table
-          data={dataTable}
-          column={column}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-          isEditable={true}
-        />
+        {dataTable ? (
+          <div>
+            <Input handleInputChange={handleInputChange} />
+            <Table
+              data={dataTable}
+              column={column}
+              handleDelete={handleDelete}
+              handleUpdate={handleUpdate}
+              isEditable={true}
+            />
+            <Pagination
+              _itemsLength={totalCount}
+              _itemsPerPage={itemsPerPage}
+              _pagesToShow={pagesToShow}
+              handlePage={handlePage}
+            />
+          </div>
+        ) : (
+          <div className="h-52">
+            <Loading />
+          </div>
+        )}
       </Layout>
     </>
   );
@@ -58,10 +133,13 @@ const Clients: NextPage = (props: InferGetServerSidePropsType<typeof getServerSi
 export default Clients;
 
 export const getServerSideProps = async (context) => {
-  const ctx = context;
+ let data 
+   await axios('http://localhost:3000/clients?_page=1&_limit=5')
+    .then((res) => data = res.data)
+    .catch((err) => console.log(err));
   //   console.log(ctx);
 
   return {
-    props: {},
+    props: { data },
   };
 };

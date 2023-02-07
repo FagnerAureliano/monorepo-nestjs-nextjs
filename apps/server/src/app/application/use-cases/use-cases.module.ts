@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.client';
+import { HttpStatusCatUseCase } from './external-api-use-case/http-status-cat-use-case';
 import { RandomUsersUseCase } from './external-api-use-case/random-users-use-case';
 import { CreateUserUseCase } from './users/create-user-use-case';
 import { DeleteUserUseCase } from './users/delete-user-use-case';
@@ -15,7 +16,8 @@ import { UpdateUserUseCase } from './users/update-user-use-case';
     DeleteUserUseCase,
     PrismaService,
     UpdateUserUseCase,
-    RandomUsersUseCase
+    RandomUsersUseCase,
+    HttpStatusCatUseCase
   ],
   exports: [
     CreateUserUseCase,
@@ -23,7 +25,8 @@ import { UpdateUserUseCase } from './users/update-user-use-case';
     ListUserUseCase,
     DeleteUserUseCase,
     UpdateUserUseCase,
-    RandomUsersUseCase
+    RandomUsersUseCase,
+    HttpStatusCatUseCase
   ],
 })
 export class UseCasesModule {}

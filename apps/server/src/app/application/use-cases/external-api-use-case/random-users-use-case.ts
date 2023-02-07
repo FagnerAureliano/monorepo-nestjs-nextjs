@@ -2,8 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import axios from 'axios';
 
 @Injectable()
-export class RandomUsersUseCase {
-  constructor() {}
+export class RandomUsersUseCase { 
 
   async execute() {
     try {

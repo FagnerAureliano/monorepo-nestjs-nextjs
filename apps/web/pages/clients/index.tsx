@@ -36,20 +36,20 @@ const Clients: NextPage = ({ data }: any) => {
 
   useEffect(() => {
     async function axiosRequest() {
-      const aa = await axios('http://localhost:3000/clients?_page=1&_limit=5')
+      const aa = await axios('http://localhost:3000/clients?_page=1&_limit=5');
       setDataTable(aa.data);
-          setTotalCount(aa.headers[`x-total-count`]);
+      setTotalCount(aa.headers[`x-total-count`]);
 
-          console.log(aa.headers);
-          console.log(totalCount);
+      console.log(aa.headers);
+      console.log(totalCount);
       // .then((res) => {
-        //   setDataTable(res.data);
-        //   setTotalCount(res.headers[`x-total-count`]);
+      //   setDataTable(res.data);
+      //   setTotalCount(res.headers[`x-total-count`]);
 
-        //   console.log(res);
-        //   console.log(totalCount);
-        // })
-        // .catch((err) => console.log(err));
+      //   console.log(res);
+      //   console.log(totalCount);
+      // })
+      // .catch((err) => console.log(err));
     }
     axiosRequest();
   }, []);
@@ -63,22 +63,22 @@ const Clients: NextPage = ({ data }: any) => {
   function handlePage(pageNumber: number) {
     setCurrentPage(pageNumber);
     async function axiosRequest() {
-      const aa =  await axios(
+      const aa = await axios(
         `http://localhost:3000/clients?_page=${currentPage}&_limit=5 `
-      )
+      );
       setDataTable(aa.data);
-          setTotalCount(aa.headers[`x-total-count`]);
+      setTotalCount(aa.headers[`x-total-count`]);
 
-          console.log(aa.headers);
-          console.log(totalCount);
-        // .then((res) => {
-        //   setDataTable(res.data);
-        //   setTotalCount(res.headers[`x-total-count`]);
+      console.log(aa.headers);
+      console.log(totalCount);
+      // .then((res) => {
+      //   setDataTable(res.data);
+      //   setTotalCount(res.headers[`x-total-count`]);
 
-        //   console.log(res.headers);
-        //   console.log(totalCount);
-        // })
-        // .catch((err) => console.log(err));
+      //   console.log(res.headers);
+      //   console.log(totalCount);
+      // })
+      // .catch((err) => console.log(err));
     }
     axiosRequest();
 
@@ -86,18 +86,18 @@ const Clients: NextPage = ({ data }: any) => {
   }
   function handleInputChange(data) {
     async function axiosRequest() {
-     const aa = await axios(
+      const aa = await axios(
         `http://localhost:3000/clients?_page=${0}&_limit=5&first_name_like=${data}`
-      )
-      
-        // .then((res) => {
-          setDataTable(aa.data);
-          setTotalCount(aa.headers[`x-total-count`]);
+      );
 
-          console.log(aa.headers);
-          console.log(totalCount);
-        // })
-        // .catch((err) => console.log(err));
+      // .then((res) => {
+      setDataTable(aa.data);
+      setTotalCount(aa.headers[`x-total-count`]);
+
+      console.log(aa.headers);
+      console.log(totalCount);
+      // })
+      // .catch((err) => console.log(err));
     }
     axiosRequest();
   }
@@ -106,7 +106,10 @@ const Clients: NextPage = ({ data }: any) => {
       <Layout title="Clients">
         {dataTable ? (
           <div>
-            <Input handleInputChange={handleInputChange} />
+            <Input
+              placeholder="Search name, e-mail, phone ..."
+              handleInput={handleInputChange}
+            />
             <Table
               data={dataTable}
               column={column}
@@ -133,9 +136,9 @@ const Clients: NextPage = ({ data }: any) => {
 export default Clients;
 
 export const getServerSideProps = async (context) => {
- let data 
-   await axios('http://localhost:3000/clients?_page=1&_limit=5')
-    .then((res) => data = res.data)
+  let data;
+  await axios('http://localhost:3000/clients?_page=1&_limit=5')
+    .then((res) => (data = res.data))
     .catch((err) => console.log(err));
   //   console.log(ctx);
 

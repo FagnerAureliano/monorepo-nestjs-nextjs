@@ -1,13 +1,25 @@
-import { ChangeEvent } from 'react';
+import { useState } from 'react';
 
 type InputProps = {
-  handleInputChange(events: any): void;
+  placeholder?: string;
+  isButonSubmit?: boolean;
+  handleInput(events: string): void;
 };
 
-export function Input({ handleInputChange }: InputProps) {
+export function Input({ handleInput, placeholder, isButonSubmit }: InputProps) {
+  const [search, setSearch] = useState<any>();
+
+  function handleInputChange(data: any) {
+    setSearch(data);
+    handleInput(search);
+  }
+  function handleSubmit() {
+    handleInput(search);
+  }
+
   return (
     <>
-      <form className="py-2">
+      <div className="py-2">
         <label
           htmlFor="default-search"
           className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -29,10 +41,26 @@ export function Input({ handleInputChange }: InputProps) {
             type="search"
             id="default-search"
             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:border-gray-500  "
-            placeholder="Search name, e-mail, phone ..."
+            placeholder={placeholder}
           />
+          {isButonSubmit && (
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="text-white absolute right-2.5 bottom-2.5 bg-gray-700 hover:bg-gray-800   font-medium rounded-lg text-sm px-2 py-2 "
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+          )}
         </div>
-      </form>
+      </div>
     </>
   );
 }

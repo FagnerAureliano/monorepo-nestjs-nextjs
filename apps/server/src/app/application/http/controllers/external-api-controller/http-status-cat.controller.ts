@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { HttpStatusCatUseCase } from '../../../use-cases/external-api-use-case/http-status-cat-use-case';
 
-@Controller('status-cat')
+@Controller('http-status-cat')
 // @UseGuards(AuthGuard('jwt'))
 export class HttpStatusCatController {
   constructor(private httpStatusCat: HttpStatusCatUseCase) {}

@@ -5,7 +5,7 @@ import axios from 'axios';
 export class HttpStatusCatUseCase {
   async execute(code: number) {
     if (code) {
-        console.log(code);
+        console.log('status code: '+code);
         
       try {
         const  data  = await axios.get(`https://http.cat/${code}`);

@@ -9,9 +9,11 @@ type InputProps = {
 export function Input({ handleInput, placeholder, isButonSubmit }: InputProps) {
   const [search, setSearch] = useState<any>();
 
-  function handleInputChange(data: any) {
+  function handleInputChange(data: string) {
     setSearch(data);
-    handleInput(search);
+    if (!isButonSubmit) {
+      handleInput(search);
+    }
   }
   function handleSubmit() {
     handleInput(search);

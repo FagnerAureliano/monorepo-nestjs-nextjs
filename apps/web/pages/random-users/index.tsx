@@ -1,11 +1,10 @@
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import RandomUsersService from '../../services/users-random';
 import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useEffect, useState } from 'react';
-import { Layout } from 'apps/web/components/layout';
-import { Table } from 'apps/web/components/table';
-import { Loading } from 'apps/web/components/loading';
-import Pagination from 'apps/web/components/pagination';
+import RandomUsersService from '../../services/users-random';
+import { Layout } from '../../components/layout';
+import { Table } from '../../components/table';
+import { Loading } from '../../components/loading';
+import Pagination from '../../components/pagination';
 
 const RandomUsers: NextPage = ({
   data,
@@ -65,7 +64,7 @@ const RandomUsers: NextPage = ({
             />
           </div>
         ) : (
-          <div className='h-52'>
+          <div className="h-52">
             <Loading />
           </div>
         )}

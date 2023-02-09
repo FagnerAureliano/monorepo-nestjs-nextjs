@@ -13,6 +13,7 @@ model User {
   name       String?
   password   String
   photo      String?
+  role       Role?    @default(USER)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
@@ -24,10 +25,22 @@ model Clients {
   email      String   @unique
   name       String
   phone      String
-  address    String
   cpf        String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
+  address    Address?
 
   @@map("clients")
+}
+
+model Address {
+  id       String  @id @default(uuid())
+  name     String
+  client   Clients @relation(fields: [clientId], references: [id])
+  clientId String  @unique
+}
+
+enum Role {
+  USER
+  ADMIN
 }

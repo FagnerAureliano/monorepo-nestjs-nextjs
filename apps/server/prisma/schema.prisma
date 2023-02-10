@@ -26,16 +26,19 @@ model Clients {
   name       String
   phone      String
   cpf        String
+  address    Address?
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
-  address    Address?
 
   @@map("clients")
 }
 
 model Address {
   id       String  @id @default(uuid())
-  name     String
+  street   String
+  number   String
+  city     String
+  zipcode  String
   client   Clients @relation(fields: [clientId], references: [id])
   clientId String  @unique
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Fragment, useContext, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
@@ -6,6 +7,7 @@ import { AuthContext } from 'apps/web/contexts/auth.context';
 import Image from 'next/image'; 
 import { api } from 'apps/web/api';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -35,6 +37,10 @@ export function Layout({ children, title }: LayoutProps) {
       ? `data:image/png;base64,${user?.photo}`
       : '/images/avatar.jpg';
 
+      const router = useRouter();
+      const { pathname } = router;
+        console.log(pathname);
+        
   function handleNav(item) {
     navigation.forEach((element) => {
       element.current = false;
@@ -44,7 +50,8 @@ export function Layout({ children, title }: LayoutProps) {
     navigation[index].current = true;
   }
 
-  useEffect(() => {
+  useEffect(() => {  
+    
     const list = async () => {
       const { data } = await api.get('/users');
       // console.log(data);

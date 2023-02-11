@@ -1,9 +1,14 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { CreateClientUseCase } from '../../../use-cases/clients/create-client-use';
 
-@Controller()
+@Controller('/clients')
 export class ClientController {
+constructor(private createClient: CreateClientUseCase){}
+
   @Post()
-  async create(@Body() userData: any): Promise<any> {
-    return null;
+  async create(@Body() body: any): Promise<any> {
+    console.log(body);
+    
+    return this.createClient.execute(body);
   }
 }

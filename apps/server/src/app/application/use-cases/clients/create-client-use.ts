@@ -54,7 +54,14 @@ export class CreateClientUseCase {
           name,
           phone,
           cpf,
-          address: {},
+          address: {
+            create: {
+              street,
+              number,
+              city,
+              zipcode,
+            },
+          },
         },
       });
       return client;

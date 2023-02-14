@@ -8,24 +8,24 @@ import { MessagesHelper } from '../../../helpers/message.helper';
 import { PrismaService } from '../../database/prisma.client';
 
 @Injectable()
-export class DeleteUserUseCase {
+export class DeleteClientUseCase {
   constructor(private prisma: PrismaService) {}
 
   async execute(id: string) {
-    const user = await this.prisma.user.findUnique({
+    const client = await this.prisma.clients.findUnique({
       where: { id },
     });
-    if (!user) throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
+    if (!client) throw new NotFoundException(MessagesHelper.CLIENT_NOT_FOUND);
 
     try {
-      this.prisma.user.delete({
+      this.prisma.clients.delete({
         where: { id },
       });
       return {
-         // TODO: fix response status
-         
+        // TODO: fix response status
+
         statusCode: HttpStatus.OK,
-        message: 'Usuário excluído com sucesso',
+        message: 'Cliente excluído com sucesso',
       };
     } catch (error) {
       throw new BadRequestException(`Erro ao tentar deletar. ${error.message}`);

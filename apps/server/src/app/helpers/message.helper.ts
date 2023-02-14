@@ -10,4 +10,7 @@ export const MessagesHelper = {
   NOT_FOUND: 'Desculpe, não encontramos o que você procura',
   USER_NOT_FOUND: 'Desculpe, usuário não encontrado',
   INVALID_EMAIL_ADDRESS: 'Este e-mail é inválido',
+
+  
+  CLIENT_NOT_FOUND: 'Desculpe, cliente não encontrado',
 };

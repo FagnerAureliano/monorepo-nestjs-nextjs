@@ -8,7 +8,7 @@ export class UpdateClientUseCase {
 
   async execute(data: Clients) {
     try {
-      return this.prisma.clients.update({
+      return await this.prisma.clients.update({
         where: {
           id: data.id,
         },

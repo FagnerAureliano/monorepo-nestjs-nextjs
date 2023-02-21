@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Req,
 } from '@nestjs/common';
 import { Clients } from '@prisma/client';
 import { CreateClientUseCase } from '../../../use-cases/clients/create-client-use-case';
@@ -32,8 +33,8 @@ export class ClientController {
     return this.createClient.execute(body);
   }
   @Get()
-  async list(): Promise<Clients[]> {
-    return await this.listClient.execute();
+  async list(@Req() request: Request) {
+    return await this.listClient.execute(request);
   }
   @Get(':id')
   async findByID(
@@ -47,7 +48,7 @@ export class ClientController {
     return await this.removeClient.execute(id);
   }
   @Patch()
-  async update(@Body() body: Clients): Promise<Clients> {
+  async update(@Body() body: Clients) {
     return await this.updateClient.execute(body);
   }
 }

@@ -5,11 +5,29 @@ import { PrismaService } from '../../database/prisma.client';
 export class ListClientsUseCase {
   constructor(private prisma: PrismaService) {}
 
-  async execute() {
+  async execute(req) {
+    console.log(req.query);
+
+    const pageNumber = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.size) || 10;
+    const offset = (pageNumber - 1) * pageSize;
+
     try {
-      return await this.prisma.clients.findMany({
-        include: { address: true },
-      });
+      const [data, total] = await Promise.all([
+        this.prisma.clients.findMany({
+          skip: offset,
+          take: pageSize,
+          orderBy: {
+            name: 'asc',
+          },
+          include: {
+            address: true,
+          },
+        }),
+        this.prisma.clients.count(),
+      ]);
+
+      return { data, total };
     } catch (error) {
       throw new BadRequestException(`Erro ao tentar listar. ${error.message}`);
     }

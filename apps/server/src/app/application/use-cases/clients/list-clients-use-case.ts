@@ -7,7 +7,9 @@ export class ListClientsUseCase {
 
   async execute() {
     try {
-      return this.prisma.clients.findMany();
+      return await this.prisma.clients.findMany({
+        include: { address: true },
+      });
     } catch (error) {
       throw new BadRequestException(`Erro ao tentar listar. ${error.message}`);
     }

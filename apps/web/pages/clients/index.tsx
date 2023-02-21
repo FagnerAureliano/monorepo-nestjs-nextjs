@@ -1,5 +1,5 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
-import { NextPage, InferGetServerSidePropsType } from 'next';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import { Table } from 'apps/web/components/table';
 import Pagination from 'apps/web/components/pagination';
 import { Loading } from 'apps/web/components/loading';
 import { Input } from 'apps/web/components/input';
-// import { Table } from '../components/table';
+import ClientsService from '../../services/clients';
 
 const Clients: NextPage = ({ data }: any) => {
   console.log(data);
@@ -26,8 +26,6 @@ const Clients: NextPage = ({ data }: any) => {
   function handleUpdate(data) {
     console.log(data);
 
-    console.log(data.id.value);
-
     // nav.push(`/clients/update/${id}`);
   }
 
@@ -36,12 +34,10 @@ const Clients: NextPage = ({ data }: any) => {
 
   useEffect(() => {
     async function axiosRequest() {
-      const aa = await axios('http://localhost:3000/clients?_page=1&_limit=5');
-      setDataTable(aa.data);
-      setTotalCount(aa.headers[`x-total-count`]);
+      setDataTable(data);
 
-      console.log(aa.headers);
-      console.log(totalCount);
+      // console.log(aa.headers);
+      // console.log(totalCount);
       // .then((res) => {
       //   setDataTable(res.data);
       //   setTotalCount(res.headers[`x-total-count`]);
@@ -55,51 +51,18 @@ const Clients: NextPage = ({ data }: any) => {
   }, []);
 
   const column = [
-    { heading: 'Photo', value: 'photo' },
-    { heading: 'Name', value: 'first_name' },
+    { heading: 'Name', value: 'name' },
     { heading: 'Email', value: 'email' },
     { heading: 'Phone', value: 'phone' },
+    { heading: 'CPF', value: 'cpf' },
   ];
   function handlePage(pageNumber: number) {
     setCurrentPage(pageNumber);
-    async function axiosRequest() {
-      const aa = await axios(
-        `http://localhost:3000/clients?_page=${currentPage}&_limit=5 `
-      );
-      setDataTable(aa.data);
-      setTotalCount(aa.headers[`x-total-count`]);
-
-      console.log(aa.headers);
-      console.log(totalCount);
-      // .then((res) => {
-      //   setDataTable(res.data);
-      //   setTotalCount(res.headers[`x-total-count`]);
-
-      //   console.log(res.headers);
-      //   console.log(totalCount);
-      // })
-      // .catch((err) => console.log(err));
-    }
-    axiosRequest();
 
     console.log(pageNumber);
   }
   function handleInputChange(data) {
-    async function axiosRequest() {
-      const aa = await axios(
-        `http://localhost:3000/clients?_page=${0}&_limit=5&first_name_like=${data}`
-      );
-
-      // .then((res) => {
-      setDataTable(aa.data);
-      setTotalCount(aa.headers[`x-total-count`]);
-
-      console.log(aa.headers);
-      console.log(totalCount);
-      // })
-      // .catch((err) => console.log(err));
-    }
-    axiosRequest();
+    console.log(data);
   }
   return (
     <>
@@ -137,7 +100,7 @@ export default Clients;
 
 export const getServerSideProps = async (context) => {
   let data;
-  await axios('http://localhost:3000/clients?_page=1&_limit=5')
+  await ClientsService.findAll()
     .then((res) => (data = res.data))
     .catch((err) => console.log(err));
   //   console.log(ctx);

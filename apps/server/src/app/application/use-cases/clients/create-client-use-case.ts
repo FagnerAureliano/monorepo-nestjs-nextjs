@@ -5,7 +5,7 @@ import { MessagesHelper } from '../../../helpers/message.helper';
 import { validateEmail } from '../../../utils/validate-email.utils';
 import { PrismaService } from '../../database/prisma.client';
 
-type CreateClientRequest = {
+type ClientRequest = {
   email: string;
   name: string;
   phone: string;
@@ -18,8 +18,13 @@ type Address = {
   city: string;
   zipcode: string;
 };
-
-type CreateClientResponse = any;
+type ClientResponse = {
+  email: string;
+  name: string;
+  phone: string;
+  cpf: string;
+  address?: Address;
+};
 
 @Injectable()
 export class CreateClientUseCase {
@@ -31,7 +36,7 @@ export class CreateClientUseCase {
     phone,
     cpf,
     address: { street, number, city, zipcode },
-  }: CreateClientRequest): Promise<CreateClientResponse> {
+  }: ClientRequest): Promise<ClientResponse> {
     if (!validateEmail(email)) {
       throw new BadRequestException(MessagesHelper.INVALID_EMAIL_ADDRESS);
     }

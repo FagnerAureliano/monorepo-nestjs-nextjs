@@ -9,6 +9,7 @@ export class FindClientUseCase {
   async findById(id: string) {
     const client = await this.prisma.clients.findUnique({
       where: { id },
+      include: { address: true },
     });
     if (!client) throw new NotFoundException(MessagesHelper.CLIENT_NOT_FOUND);
     return client;

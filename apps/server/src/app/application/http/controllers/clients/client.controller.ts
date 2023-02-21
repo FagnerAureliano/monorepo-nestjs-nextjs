@@ -33,21 +33,21 @@ export class ClientController {
   }
   @Get()
   async list(): Promise<Clients[]> {
-    return this.listClient.execute();
+    return await this.listClient.execute();
   }
   @Get(':id')
   async findByID(
     @Param('id', new ParseUUIDPipe()) id: string
   ): Promise<Clients> {
-    return this.findClient.findById(id);
+    return await this.findClient.findById(id);
   }
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return this.removeClient.execute(id);
+    return await this.removeClient.execute(id);
   }
   @Patch()
   async update(@Body() body: Clients): Promise<Clients> {
-    return this.updateClient.execute(body);
+    return await this.updateClient.execute(body);
   }
 }

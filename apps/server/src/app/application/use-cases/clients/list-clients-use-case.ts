@@ -9,7 +9,7 @@ export class ListClientsUseCase {
     console.log(req.query);
 
     const pageNumber = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.size) || 10;
+    const pageSize = parseInt(req.query.size) || 5;
     const offset = (pageNumber - 1) * pageSize;
 
     try {

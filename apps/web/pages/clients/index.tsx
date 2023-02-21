@@ -45,12 +45,12 @@ const Clients: NextPage = ({ data, total }: Props) => {
 
   async function handlePage(pageNumber: number) {
     console.log(pageNumber);
-    
+
     setCurrentPage(pageNumber);
     const { data } = await ClientsService.findAll(pageNumber);
     console.log(data);
-    
-    setDataTable(data.data)
+
+    setDataTable(data.data);
     console.log(pageNumber);
   }
   function handleInputChange(data) {
@@ -61,10 +61,18 @@ const Clients: NextPage = ({ data, total }: Props) => {
       <Layout title="Clients">
         {dataTable ? (
           <div>
-            <Input
-              placeholder="Search name, e-mail, phone ..."
-              handleInput={handleInputChange}
-            />
+            <div className="flex place-content-between h-12">
+              <Input
+                placeholder="Search name, e-mail, phone ..."
+                handleInput={handleInputChange}
+              />
+              <button
+                className="text-white border border-gray-700 bg-gray-600 focus:ring-2 focus:outline-none focus:ring-gray-500 rounded-lg text-sm px-5 text-center  "
+                onClick={() => console.log('eee')}
+              >
+                Create Client
+              </button>
+            </div>
             <Table
               data={dataTable}
               column={column}
@@ -72,12 +80,14 @@ const Clients: NextPage = ({ data, total }: Props) => {
               handleUpdate={handleUpdate}
               isEditable={true}
             />
-            <Pagination
-              _itemsLength={totalCount}
-              _itemsPerPage={itemsPerPage}
-              _pagesToShow={pagesToShow}
-              handlePage={handlePage}
-            />
+            {dataTable && (
+              <Pagination
+                _itemsLength={totalCount}
+                _itemsPerPage={itemsPerPage}
+                _pagesToShow={pagesToShow}
+                handlePage={handlePage}
+              />
+            )}
           </div>
         ) : (
           <div className="h-52">

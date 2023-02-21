@@ -56,8 +56,15 @@ const Pagination = ({
   return (
     <>
       {/* <Table column={column} data={currentItems} isEditable={false}></Table> */}
-
-      <nav className="p-1">
+      <div></div>
+      <nav className="p-1 flex items-center place-content-between ">
+        <ul > 
+          {/* <p className="text-sm text-gray-700">
+            Showing <span className="font-medium">{1}</span> to{' '}
+            <span className="font-medium">{1}</span> of{' '}
+            <span className="font-medium">{_itemsLength}</span> results
+          </p>{' '} */}
+        </ul>
         <ul className="text-right ">
           {currentPage !== 1 && (
             <button

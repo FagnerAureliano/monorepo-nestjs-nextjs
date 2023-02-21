@@ -41,9 +41,9 @@ export default function HttpCat() {
             </div>
           ) : (
             <>
-              <div>
+              <div className='pt-4'>
                 <span className='p-2 font-bold'>Digite um número de Status HTTP</span>
-                <div className='p-2 text-base'>
+                <div className='p-2 text-base gap-3'>
                   <p>Respostas de informação (100-199) </p>
                   <p>Respostas de sucesso (200-299),</p>
                   <p>Redirecionamentos (300-399)</p>

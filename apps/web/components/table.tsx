@@ -36,8 +36,8 @@ export function Table({
             </td>
           );
         } else if (
-          item[`${columnItem.value}`].includes('data:image') ||
-          item[`${columnItem.value}`].includes('http')
+          item[`${columnItem.value}`]?.includes('data:image') ||
+          item[`${columnItem.value}`]?.includes('http')
         ) {
           return (
             <td className="px-6 py-4" key={index}>

@@ -10,14 +10,28 @@ import { Loading } from 'apps/web/components/loading';
 import { Input } from 'apps/web/components/input';
 import ClientsService from '../../services/clients';
 
-const Clients: NextPage = ({ data }: any) => {
-  console.log(data);
+const column = [
+  { heading: 'Name', value: 'name' },
+  { heading: 'Email', value: 'email' },
+  { heading: 'Phone', value: 'phone' },
+  { heading: 'CPF', value: 'cpf' },
+];
+interface Props {
+  data: any;
+  total: number;
+}
+
+const Clients: NextPage = ({ data, total }: Props) => {
+  console.log(data, data.total);
 
   const nav = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [pagesToShow, setPagesToShow] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [pagesToShow, setPagesToShow] = useState(3);
+
+  const [dataTable, setDataTable] = useState(data.data);
+  const [totalCount, setTotalCount] = useState(data.total);
 
   function handleDelete(data) {
     console.log(data);
@@ -29,36 +43,14 @@ const Clients: NextPage = ({ data }: any) => {
     // nav.push(`/clients/update/${id}`);
   }
 
-  const [dataTable, setDataTable] = useState([]);
-  const [totalCount, setTotalCount] = useState();
-
-  useEffect(() => {
-    async function axiosRequest() {
-      setDataTable(data);
-
-      // console.log(aa.headers);
-      // console.log(totalCount);
-      // .then((res) => {
-      //   setDataTable(res.data);
-      //   setTotalCount(res.headers[`x-total-count`]);
-
-      //   console.log(res);
-      //   console.log(totalCount);
-      // })
-      // .catch((err) => console.log(err));
-    }
-    axiosRequest();
-  }, []);
-
-  const column = [
-    { heading: 'Name', value: 'name' },
-    { heading: 'Email', value: 'email' },
-    { heading: 'Phone', value: 'phone' },
-    { heading: 'CPF', value: 'cpf' },
-  ];
-  function handlePage(pageNumber: number) {
+  async function handlePage(pageNumber: number) {
+    console.log(pageNumber);
+    
     setCurrentPage(pageNumber);
-
+    const { data } = await ClientsService.findAll(pageNumber);
+    console.log(data);
+    
+    setDataTable(data.data)
     console.log(pageNumber);
   }
   function handleInputChange(data) {
@@ -99,13 +91,9 @@ const Clients: NextPage = ({ data }: any) => {
 export default Clients;
 
 export const getServerSideProps = async (context) => {
-  let data;
-  await ClientsService.findAll()
-    .then((res) => (data = res.data))
-    .catch((err) => console.log(err));
-  //   console.log(ctx);
+  const { data } = await ClientsService.findAll();
 
   return {
-    props: { data },
+    props: { data: data },
   };
 };

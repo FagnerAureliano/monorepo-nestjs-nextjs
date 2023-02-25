@@ -1,8 +1,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { Layout } from 'apps/web/components/layout';
 import { Table } from 'apps/web/components/table';
 import Pagination from 'apps/web/components/pagination';
@@ -14,7 +13,7 @@ const column = [
   { heading: 'Name', value: 'name' },
   { heading: 'Email', value: 'email' },
   { heading: 'Phone', value: 'phone' },
-  { heading: 'CPF', value: 'cpf' },
+  { heading: 'City', value: 'address.city' },
 ];
 interface Props {
   data: any;
@@ -37,6 +36,9 @@ const Clients: NextPage = ({ data, total }: Props) => {
     console.log(data);
   }
 
+  function handleCreate() {
+    nav.push(`/clients/create`);
+  }
   function handleUpdate(data) {
     console.log(data);
 
@@ -68,7 +70,7 @@ const Clients: NextPage = ({ data, total }: Props) => {
               />
               <button
                 className="text-white border border-gray-700 bg-gray-600 focus:ring-2 focus:outline-none focus:ring-gray-500 rounded-lg text-sm px-5 text-center  "
-                onClick={() => console.log('eee')}
+                onClick={handleCreate}
               >
                 Create Client
               </button>

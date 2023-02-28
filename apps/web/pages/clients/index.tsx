@@ -21,8 +21,6 @@ interface Props {
 }
 
 const Clients: NextPage = ({ data, total }: Props) => {
-  console.log(data, data.total);
-
   const nav = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +40,7 @@ const Clients: NextPage = ({ data, total }: Props) => {
   function handleUpdate(data) {
     console.log(data);
 
-    // nav.push(`/clients/update/${id}`);
+    nav.push(`/clients/update/${data.id}`);
   }
 
   async function handlePage(pageNumber: number) {

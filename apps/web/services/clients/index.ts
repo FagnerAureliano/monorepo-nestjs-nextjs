@@ -22,7 +22,13 @@ class ClientsService {
       return error;
     }
   }
-
+  async findByID(id: string) {
+    try {
+      return await api.get(`/clients/${id}`);
+    } catch (error) {
+      return error;
+    }
+  }
   async createClient(body: ClientProps) {
     try {
       return await api.post(`/clients`, body);

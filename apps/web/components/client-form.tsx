@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface ClientProps {
+  id:string;
   name: string;
   email: string;
   cpf: string;
@@ -13,14 +14,12 @@ interface ClientProps {
     number: string;
   };
 }
-interface formProps {
+interface FormProps {
   data?: ClientProps;
   onSubmit(data: ClientProps): void;
 }
 
-export function ClientForm  ({ data, onSubmit }: formProps)  {
-  console.log(data);
-  
+export function ClientForm({ data, onSubmit }: FormProps) {
   const {
     register,
     handleSubmit,
@@ -28,6 +27,7 @@ export function ClientForm  ({ data, onSubmit }: formProps)  {
     formState: { errors },
   } = useForm<ClientProps>({
     defaultValues: {
+      id: data ? data.id : '',
       name: data ? data.name : '',
       email: data ? data.email : '',
       cpf: data ? data.cpf : '',
@@ -198,5 +198,5 @@ export function ClientForm  ({ data, onSubmit }: formProps)  {
       </form>
     </>
   );
-};
+}
 export default ClientForm;

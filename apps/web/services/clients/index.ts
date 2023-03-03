@@ -29,9 +29,16 @@ class ClientsService {
       return error;
     }
   }
-  async createClient(body: ClientProps) {
+  async create(body: ClientProps) {
     try {
       return await api.post(`/clients`, body);
+    } catch (error) {
+      return error;
+    }
+  }
+  async update(body: ClientProps) {
+    try {
+      return await api.patch(`/clients`, body);
     } catch (error) {
       return error;
     }

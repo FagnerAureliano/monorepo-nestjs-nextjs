@@ -39,7 +39,7 @@ export function Layout({ children, title }: LayoutProps) {
 
       const router = useRouter();
       const { pathname } = router;
-        console.log(pathname);
+        // console.log(pathname);
         
   function handleNav(item) {
     navigation.forEach((element) => {

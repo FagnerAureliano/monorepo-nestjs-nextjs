@@ -1,14 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { NextPage } from 'next';
 import ClientForm from '../../../components/client-form';
 import { Layout } from '../../../components/layout';
 import ClientsService from '../../../services/clients';
+import { useRouter } from 'next/router';
 
 const Createlients: NextPage = ({ data }: any) => {
-  console.log(data);
+  const nav = useRouter();
 
-  function onSubmit() {
-    console.log('');
+  async function onSubmit(data) {
+    try {
+      await ClientsService.update(data);
+      nav.push('/clients');
+    } catch (error) {
+      return error;
+    }
   }
   const [client, setClient] = useState(data);
 

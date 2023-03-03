@@ -11,12 +11,14 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { Clients } from '@prisma/client';
 import { CreateClientUseCase } from '../../../use-cases/clients/create-client-use-case';
 import { DeleteClientUseCase } from '../../../use-cases/clients/delete-client-use-case';
 import { FindClientUseCase } from '../../../use-cases/clients/find-client-use-case';
 import { ListClientsUseCase } from '../../../use-cases/clients/list-clients-use-case';
-import { UpdateClientUseCase } from '../../../use-cases/clients/update-client-use-case';
+import {
+  ClientProps,
+  UpdateClientUseCase,
+} from '../../../use-cases/clients/update-client-use-case';
 
 @Controller('/clients')
 export class ClientController {
@@ -29,7 +31,7 @@ export class ClientController {
   ) {}
 
   @Post()
-  async create(@Body() body: Clients) {
+  async create(@Body() body: ClientProps) {
     return this.createClient.execute(body);
   }
   @Get()
@@ -39,7 +41,7 @@ export class ClientController {
   @Get(':id')
   async findByID(
     @Param('id', new ParseUUIDPipe()) id: string
-  ): Promise<Clients> {
+  ): Promise<ClientProps> {
     return await this.findClient.findById(id);
   }
   @Delete(':id')
@@ -48,7 +50,7 @@ export class ClientController {
     return await this.removeClient.execute(id);
   }
   @Patch()
-  async update(@Body() body: Clients) {
+  async update(@Body() body: ClientProps) {
     return await this.updateClient.execute(body);
   }
 }

@@ -20,11 +20,10 @@ interface ClientProps {
 
 const Clients: NextPage = (props: any) => {
   const nav = useRouter();
- 
 
   async function onSubmit(data: ClientProps) {
     try {
-      await ClientsService.createClient(data);
+      await ClientsService.create(data);
       nav.push('/clients');
     } catch (error) {
       return error;

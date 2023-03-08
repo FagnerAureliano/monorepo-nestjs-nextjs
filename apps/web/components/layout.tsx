@@ -54,7 +54,6 @@ export function Layout({ children, title }: LayoutProps) {
     
     const list = async () => {
       const { data } = await api.get('/users');
-      // console.log(data);
       return null;
     };
     list();

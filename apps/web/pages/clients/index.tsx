@@ -37,7 +37,9 @@ const Clients: NextPage = ({ data, total }: Props) => {
   function handleCreate() {
     nav.push(`/clients/create`);
   }
-  function handleUpdate(data) { 
+  function handleUpdate(data) {
+    console.log(data);
+
     nav.push(`/clients/update/${data.id}`);
   }
 

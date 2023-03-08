@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "build":"nx build",
     "start:server": "rm -rf dist && nx serve server",
     "start:web": "rm -rf next &&  nx serve web"
   },

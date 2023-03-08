@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 interface ClientProps {
   id:string;
@@ -43,7 +43,7 @@ export function ClientForm({ data, onSubmit }: FormProps) {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} >
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="email"
@@ -192,9 +192,11 @@ export function ClientForm({ data, onSubmit }: FormProps) {
           </div>
         </div>
 
-        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          Submit
-        </button>
+        <button
+            className="text-gray-700 float-right hover:text-white border border-gray-700 hover:bg-gray-800 focus:ring-1 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+          >
+            Salvar
+          </button>
       </form>
     </>
   );

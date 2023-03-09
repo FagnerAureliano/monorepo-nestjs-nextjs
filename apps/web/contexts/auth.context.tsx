@@ -41,12 +41,14 @@ export function AuthProvider({ children }) {
 
       const findUser = async () => {
         const { data } = await userService.findById(decoded.sub);
-        setUser({
-          id: data.id,
-          name: data.name,
-          email: data.email,
-          photo: data.photo,
-        });
+        if (data) {
+          setUser({
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            photo: data.photo,
+          });
+        }
       };
       findUser();
     }

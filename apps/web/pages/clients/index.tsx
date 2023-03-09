@@ -34,6 +34,7 @@ const Clients: NextPage = ({ data, total }: Props) => {
     console.log(data);
   }
 
+
   function handleCreate() {
     nav.push(`/clients/create`);
   }
@@ -80,14 +81,14 @@ const Clients: NextPage = ({ data, total }: Props) => {
               handleUpdate={handleUpdate}
               isEditable={true}
             />
-            {dataTable && (
+           
               <Pagination
                 _itemsLength={totalCount}
                 _itemsPerPage={itemsPerPage}
                 _pagesToShow={pagesToShow}
                 handlePage={handlePage}
               />
-            )}
+         
           </div>
         ) : (
           <div className="h-52">
@@ -102,7 +103,7 @@ export default Clients;
 
 export const getServerSideProps = async (context) => {
   const { data } = await ClientsService.findAll();
-
+  console.log(process.env.API_URL);
   return {
     props: { data: data },
   };

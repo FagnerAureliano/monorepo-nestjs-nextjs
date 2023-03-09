@@ -58,44 +58,46 @@ const Pagination = ({
       {/* <Table column={column} data={currentItems} isEditable={false}></Table> */}
       <div></div>
       <nav className="p-1 flex items-center place-content-between ">
-        <ul > 
-          {/* <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{1}</span> to{' '}
-            <span className="font-medium">{1}</span> of{' '}
-            <span className="font-medium">{_itemsLength}</span> results
-          </p>{' '} */}
-        </ul>
-        <ul className="text-right ">
-          {currentPage !== 1 && (
-            <button
-              onClick={() => handlePageChange(firstPage)}
-              className="relative inline-flex items-center active:bg-gray-300 rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Previous
-              {/* <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" /> */}
-            </button>
-          )}
-          {pagesToRender.map((number) => (
-            <div key={number} className="relative inline-flex ">
+        {_itemsLength < 0 && (
+          <ul className="text-right ">
+            <ul>
+              {/* <p className="text-sm text-gray-700">
+                Showing <span className="font-medium">{1}</span> to{' '}
+                <span className="font-medium">{1}</span> of{' '}
+                <span className="font-medium">{_itemsLength}</span> results
+              </p>{' '} */}
+            </ul>
+            {currentPage !== 1 && (
               <button
-                onClick={() => handlePageChange(number)}
-                className="relative items-center border active:bg-gray-300 border-gray-300  px-4 py-2 text-sm font-medium text-gray-600 focus:z-20"
+                onClick={() => handlePageChange(firstPage)}
+                className="relative inline-flex items-center active:bg-gray-300 rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
-                {number}
+                Previous
+                {/* <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" /> */}
               </button>
-            </div>
-          ))}
+            )}
+            {pagesToRender.map((number) => (
+              <div key={number} className="relative inline-flex ">
+                <button
+                  onClick={() => handlePageChange(number)}
+                  className="relative items-center border active:bg-gray-300 border-gray-300  px-4 py-2 text-sm font-medium text-gray-600 focus:z-20"
+                >
+                  {number}
+                </button>
+              </div>
+            ))}
 
-          {currentPage !== Math.ceil(_itemsLength / _itemsPerPage) && (
-            <button
-              onClick={() => handlePageChange(lastPage)}
-              className="relative inline-flex items-center active:bg-gray-300 rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Next
-              {/* <ChevronRightIcon className="h-5 w-5 fon" aria-hidden="true" /> */}
-            </button>
-          )}
-        </ul>
+            {currentPage !== Math.ceil(_itemsLength / _itemsPerPage) && (
+              <button
+                onClick={() => handlePageChange(lastPage)}
+                className="relative inline-flex items-center active:bg-gray-300 rounded-r-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Next
+                {/* <ChevronRightIcon className="h-5 w-5 fon" aria-hidden="true" /> */}
+              </button>
+            )}
+          </ul>
+        )}
       </nav>
     </>
   );

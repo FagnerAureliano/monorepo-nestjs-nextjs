@@ -22,5 +22,12 @@ class UserService {
       return error;
     }
   }
+  async create(data: any) {
+    try {
+      return await api.post(`/users`, data);
+    } catch (error) {
+      return error;
+    }
+  }
 }
 export default new UserService();

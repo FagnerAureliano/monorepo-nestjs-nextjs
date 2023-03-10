@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "build": "nx run web:build",
-    "start:server": "rm -rf dist && nx serve server",
-    "start:web": "rm -rf next &&  nx serve web"
+    "start:server": "nx serve server",
+    "start:web": "nx serve web"
   },
   "private": true,
   "dependencies": {

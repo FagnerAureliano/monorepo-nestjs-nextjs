@@ -2,7 +2,7 @@ import { UserIcon } from '@heroicons/react/24/solid';
 import { Formik, Form, Field } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext } from 'react';
+import UserService from '../services/user-service';
 
 export default function SingUp() {
   interface ISingUp {
@@ -21,8 +21,15 @@ export default function SingUp() {
 
   async function handleSignUp({ name, email, password }: ISingUp) {
     console.log(name, email, password);
-
-    // await signUp({ name, email, password })
+    
+    if (initialValues.password != initialValues.passwordConfirm) {
+      throw new Error('Error password wrong');
+    }
+    try {
+      await UserService.create({ name, email, password });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -33,7 +40,9 @@ export default function SingUp() {
             <Image
               width={200}
               height={200}
-              src={"https://i.pinimg.com/564x/84/eb/2b/84eb2b29ecae003e53d717946ff49dbd.jpg"}
+              src={
+                'https://i.pinimg.com/564x/84/eb/2b/84eb2b29ecae003e53d717946ff49dbd.jpg'
+              }
               alt="Workflow"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

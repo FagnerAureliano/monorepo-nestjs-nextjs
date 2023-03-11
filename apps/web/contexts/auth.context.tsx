@@ -37,9 +37,9 @@ export function AuthProvider({ children }) {
     const { monorepo_auth_token } = parseCookies();
 
     if (monorepo_auth_token) {
-      const decoded: Payload = jwt_decode(monorepo_auth_token);
-
+      
       const findUser = async () => {
+        const decoded: Payload = await jwt_decode(monorepo_auth_token);
         const { data } = await userService.findById(decoded.sub);
         if (data) {
           setUser({
@@ -63,10 +63,10 @@ export function AuthProvider({ children }) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     if (user) {
       setUser({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        photo: user.photo,
+        id: user?.id,
+        name: user?.name,
+        email: user?.email,
+        photo: user?.photo,
       });
     }
 

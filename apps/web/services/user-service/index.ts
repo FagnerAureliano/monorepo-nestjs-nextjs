@@ -10,6 +10,8 @@ class UserService {
     
     try {
       const { data } = await api.post('/auth/login', { email, password });
+      console.log(data);
+      
       return data;
     } catch (error) {
       return error;

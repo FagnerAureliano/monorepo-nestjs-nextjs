@@ -56,6 +56,8 @@ export function AuthProvider({ children }) {
 
   async function signIn({ email, password }: LoginProps) {
     const { user, token } = await userService.login({ email, password });
+    console.log(user, token);
+    
 
     setCookie(undefined, 'monorepo_auth_token', token, {
       maxAge: 60 * 60 * 1, // 1 hour

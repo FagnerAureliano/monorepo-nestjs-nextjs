@@ -4,7 +4,7 @@ import { parseCookies } from 'nookies';
 export const api = axios.create({
   // baseURL: 'https://monorepo-server-8qby.onrender.com/api/v1/',
   // baseURL: 'http://localhost:3333/api/v1/',
-  baseURL: process.env.API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 // api.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';

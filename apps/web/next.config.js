@@ -16,5 +16,15 @@ const nextConfig = {
     svgr: false,
   },
 };
+module.exports = {
+  async rewrites() {
+      return [
+        {
+          source: '/api/v1/:path*',
+          destination: 'https://monorepo-server-8qby.onrender.com/:path*',
+        },
+      ]
+    },
+};
 
 module.exports = withNx(nextConfig);

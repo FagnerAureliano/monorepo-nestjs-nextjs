@@ -21,7 +21,7 @@ module.exports = {
       return [
         {
           source: '/api/v1/:path*',
-          destination: 'https://monorepo-server-8qby.onrender.com/:path*',
+          destination: process.env.NEXT_PUBLIC_API_URL,
         },
       ]
     },

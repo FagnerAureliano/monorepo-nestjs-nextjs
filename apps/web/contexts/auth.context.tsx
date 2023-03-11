@@ -61,13 +61,14 @@ export function AuthProvider({ children }) {
       maxAge: 60 * 60 * 1, // 1 hour
     });
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-    setUser({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      photo: user.photo,
-    });
+    if (user) {
+      setUser({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        photo: user.photo,
+      });
+    }
 
     Router.push('/cats');
   }

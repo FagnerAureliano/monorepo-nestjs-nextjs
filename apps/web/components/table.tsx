@@ -87,7 +87,7 @@ export function Table({
                 {column.map((item: undefined, index: Key) => (
                   <TableHeadItem key={index} item={item} />
                 ))}
-                {isEditable && <th></th>}
+                {isEditable && <th>{null}</th>}
               </tr>
             </thead>
             <tbody>

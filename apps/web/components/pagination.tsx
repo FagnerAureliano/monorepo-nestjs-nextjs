@@ -58,7 +58,7 @@ const Pagination = ({
       {/* <Table column={column} data={currentItems} isEditable={false}></Table> */}
       <div></div>
       <nav className="p-1 flex items-center place-content-between ">
-        {_itemsLength < 0 && (
+        {_itemsLength > 1 && (
           <ul className="text-right ">
             <ul>
               {/* <p className="text-sm text-gray-700">

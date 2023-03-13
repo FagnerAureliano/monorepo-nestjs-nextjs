@@ -1,22 +1,24 @@
-import { AppProps } from 'next/app';
+import './../styles/global.css'; 
 import Head from 'next/head';
 import { useContext } from 'react';
+import { SessionProvider } from 'next-auth/react';
 import { AuthContext, AuthProvider } from '../contexts/auth.context';
-import './../styles/global.css';
 
-function CustomApp({ Component, pageProps }) {
-  // const { isAuthenticated } = useContext(AuthContext); 
-  
+function CustomApp({ Component, pageProps: { session, ...pageProps } }) {
+  // const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <>
       <Head>
-        <title>🚀  - Monorepo</title>
+        <title>🚀 - Monorepo</title>
       </Head>
-      <AuthProvider>
+      <SessionProvider  session={session}>
+        {/* <AuthProvider> */}
         <main className="app">
           <Component {...pageProps} />
         </main>
-      </AuthProvider>
+        {/* </AuthProvider> */}
+      </SessionProvider>
     </>
   );
 }

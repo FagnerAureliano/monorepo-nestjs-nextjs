@@ -1,10 +1,10 @@
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { api } from "apps/web/api";
+import { api } from "apps/web/http";
 
 class RandomUsersService {
     async getRandomUsers() {
       try {
-        const  {data} = await api.get('random-users'); 
+        const  {data} = await api.get('/random-users'); 
         
         return  data
       } catch (error) {

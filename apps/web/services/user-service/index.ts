@@ -1,4 +1,4 @@
-import { api } from '../../api';
+import { api } from '../../http';
 
 export interface LoginProps {
   email: string;
@@ -9,7 +9,7 @@ class UserService {
   async login({ email, password }: LoginProps) { 
     
     try {
-      const { data } = await api.post('auth/login', { email, password });
+      const { data } = await api.post('/auth/login', { email, password });
       console.log(data);
       
       return data;

@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
-import { api } from '../../../api';
+import { api } from '../../../http';
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -54,7 +54,6 @@ export default NextAuth({
             }
           })
           .catch((e) => {
-            console.log('error auth', e);
             if (e.message == 'fetch failed') {
               throw new Error('Ocorreu um erro inesperado.');
             }
@@ -66,18 +65,18 @@ export default NextAuth({
 
   callbacks: {
     async jwt({ token, account }) {
-      console.log(token+ 'oooooooooooooooooooo');
-      
-      // Persist the OAuth access_token to the token right after signin
-      if (account) {
-        token.accessToken = account.access_token;
+      if (token.sub) {
+        token.accessToken = token.sub;
+      } else {
+        throw new Error('Usuário inválido.');
       }
       return token;
     },
     async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken;
-      return session;
+      if (!token.sub) {
+        throw new Error('Sessão inválida.');
+      }
+      return { ...session, accessToken: token.sub };
     },
   },
 });

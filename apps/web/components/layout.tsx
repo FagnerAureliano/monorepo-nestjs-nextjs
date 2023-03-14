@@ -2,12 +2,14 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Fragment, useContext, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'; 
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { AuthContext } from 'apps/web/contexts/auth.context';
-import Image from 'next/image'; 
-import { api } from 'apps/web/api';
+import Image from 'next/image';
+import { api } from 'apps/web/http';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { signOut, useSession } from 'next-auth/react';
+import useRequireAuth from '../lib/use-require-auth';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -32,15 +34,16 @@ function classNames(...classes: string[]) {
 
 export function Layout({ children, title }: LayoutProps) {
   const { user } = useContext(AuthContext);
+  const { status } = useSession();
   const userPhoto =
     user?.photo != null
       ? `data:image/png;base64,${user?.photo}`
       : '/images/avatar.jpg';
 
-      const router = useRouter();
-      const { pathname } = router;
-        // console.log(pathname);
-        
+  const router = useRouter();
+  // const { pathname } = router;
+  // console.log(pathname);
+
   function handleNav(item) {
     navigation.forEach((element) => {
       element.current = false;
@@ -49,15 +52,13 @@ export function Layout({ children, title }: LayoutProps) {
     const index = navigation.findIndex((res) => res.name === item.name);
     navigation[index].current = true;
   }
+  function handleLogout() {
+    signOut({ redirect: false });
+  }
 
-  useEffect(() => {  
-    
-    const list = async () => {
-      const { data } = await api.get('/users');
-      return null;
-    };
-    list();
-  }, []);
+  const session = useRequireAuth();
+
+  if (!session) return <div>loading...</div>;
 
   return (
     <>
@@ -142,7 +143,13 @@ export function Layout({ children, title }: LayoutProps) {
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
-                                    {item?.name}
+                                    {item?.name === 'Sign out' ? (
+                                      <div onClick={handleLogout}>
+                                        {item?.name}
+                                      </div>
+                                    ) : (
+                                      <div>{item?.name}</div>
+                                    )}
                                   </Link>
                                 )}
                               </Menu.Item>
@@ -226,7 +233,11 @@ export function Layout({ children, title }: LayoutProps) {
                         href={item.href}
                         className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
                       >
-                        {item.name}
+                        {item?.name === 'Sign out' ? (
+                          <div onClick={handleLogout}>{item?.name}</div>
+                        ) : (
+                          <div>{item?.name}</div>
+                        )}
                       </Disclosure.Button>
                     ))}
                   </div>

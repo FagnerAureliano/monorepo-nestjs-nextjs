@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { api } from '../../api';
+import { api } from '../../http';
 
 interface ClientProps {
   name: string;

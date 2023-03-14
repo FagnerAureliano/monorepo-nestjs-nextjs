@@ -4,7 +4,7 @@ import { parseCookies, setCookie } from 'nookies';
 
 import userService from '../services/user-service';
 import Router from 'next/router';
-import { api } from '../api';
+import { api } from '../http';
 
 type AuthContextTypes = {
   isAuthenticated: boolean;

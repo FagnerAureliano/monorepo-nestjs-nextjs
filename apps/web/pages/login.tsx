@@ -7,12 +7,14 @@ import { useContext } from 'react';
 import { AuthContext } from '../contexts/auth.context';
 import { LoginProps } from '../services/user-service';
 import { getSession, signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const Login: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const initialValues = {
     email: '',
     password: '',
   };
+  const router = useRouter()
 
   // const { signIn } = useContext(AuthContext);
 
@@ -23,6 +25,9 @@ const Login: NextPage = (props: InferGetServerSidePropsType<typeof getServerSide
       redirect: false,
     });
     console.log(res);
+    if(res.ok){
+      router.push('/cats')
+    }
   }
 
   return (

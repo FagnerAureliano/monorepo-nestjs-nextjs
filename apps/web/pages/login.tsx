@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from 'next';
+import type { GetServerSideProps, NextPage, InferGetServerSidePropsType } from 'next';
 import { Formik, Form, Field } from 'formik';
 import Link from 'next/link';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
@@ -8,7 +8,7 @@ import { AuthContext } from '../contexts/auth.context';
 import { LoginProps } from '../services/user-service';
 import { getSession, signIn, useSession } from 'next-auth/react';
 
-const Login: NextPage = () => {
+const Login: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const initialValues = {
     email: '',
     password: '',
@@ -128,9 +128,7 @@ const Login: NextPage = () => {
   );
 };
 export const getServerSideProps: GetServerSideProps = async (_ctx) => {
-  const session = await getSession();
-  console.log('+++++++++++-----------' + session);
-
+  const session = await getSession();  
   if (session) {
     return {
       redirect: {

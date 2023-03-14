@@ -3,7 +3,7 @@ import { signOut } from 'next-auth/react';
 import Image from 'next/image'; 
 import useRequireAuth from '../lib/use-require-auth';
 
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
   const session = useRequireAuth()
 
   // if(!session) return <div>loading...</div>
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
               alt="Workflow"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              {/* {`Seja bem vindo ${session?.user?.name}`} */}
+              {`Seja bem vindo ${session?.user?.name}`}
             </h2>
             <button onClick={() => signOut()}>Sair</button>
           </div>

@@ -15,10 +15,17 @@ export class AuthService {
   async login(user: User) {
     user = await this.findUserService.findByEmail(user.email);
     const payload = { sub: user.id, email: user.email };
-    return {
-      token: this.jwtService.sign(payload),
-      user,
+    const token = this.jwtService.sign(payload);
+
+    const data = {
+      accessToken: token,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      photo: user.photo,
     };
+    
+    return data;
   }
   async validateUser(email: string, password: string) {
     let user: IUser;

@@ -24,59 +24,43 @@ export default NextAuth({
         password: {},
       },
       async authorize(credentials, req) {
-        if (!credentials?.email && !credentials?.password) {
-          throw new Error('Email e senha requerido.');
-        }
-
-        // const { data } = await api.post('auth/login', credentials);
-        // console.log( data);
-
         const url = `${process.env.NEXTAUTH_URL}/auth/login`;
 
-        return await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-type': 'application/json;charset=UTF-8' },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
-        })
-          .then((response) => response.json())
-          .then((res) => {
-            const authorization = { id: res.token };
+        try {
+          if (!credentials?.email && !credentials?.password) {
+            throw new Error('Email e senha requerido.');
+          }
 
-            if (authorization?.id) {
-              console.log(authorization);
-
-              return authorization;
-            } else {
-              throw new Error('Usuário não encontrado.');
-            }
-          })
-          .catch((e) => {
-            if (e.message == 'fetch failed') {
-              throw new Error('Ocorreu um erro inesperado.');
-            }
-            throw new Error(e.message);
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json;charset=UTF-8' },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
           });
+          const user = await res.json();
+
+          if (res.ok && user) {
+            return user;
+          }
+          throw new Error('Não foi possível autenticar usuário.');
+          // return null;
+        } catch (error) {
+          console.error('Erro ao autenticar usuário:', error.message);
+          throw new Error('Não foi possível autenticar usuário.');
+        }
       },
     }),
   ],
 
   callbacks: {
-    async jwt({ token, account }) {
-      if (token.sub) {
-        token.accessToken = token.sub;
-      } else {
-        throw new Error('Usuário inválido.');
-      }
-      return token;
+    async jwt({ token, user }) {
+      return { ...token, ...user };
     },
-    async session({ session, token, user }) {
-      if (!token.sub) {
-        throw new Error('Sessão inválida.');
-      }
-      return { ...session, accessToken: token.sub };
+    async session({ session, token }) {
+      session.user = token;
+      return session;
     },
   },
 });

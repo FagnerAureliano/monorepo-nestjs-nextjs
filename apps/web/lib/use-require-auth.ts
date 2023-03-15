@@ -4,8 +4,7 @@ import { useEffect } from 'react';
 
 function useRequireAuth() {
   const { data: session } = useSession();
-  const router = useRouter();
-
+  const router = useRouter(); 
   useEffect(() => {
     if (!session && typeof session != 'undefined') {
       router.push('/login');

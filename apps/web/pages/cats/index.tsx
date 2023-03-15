@@ -7,7 +7,7 @@ import CatsService from '../../services/cats-random';
 const Cats: NextPage = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [catImage, setCatImage] = useState<string | null>(data);
+  const [catImage, setCatImage] = useState<string | null>(data ? data : null);
   const [loading, setLoading] = useState(false);
 
   async function handleRefresh() {
@@ -55,7 +55,8 @@ const Cats: NextPage = ({
 export default Cats;
 
 export const getServerSideProps = async (context) => {
-  const data = await CatsService.getRandomCats();
+  let data = await CatsService.getRandomCats();
+  data = JSON.stringify(data)
 
   return {
     props: {

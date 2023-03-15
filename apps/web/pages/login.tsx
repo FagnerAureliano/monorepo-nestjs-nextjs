@@ -1,4 +1,8 @@
-import type { GetServerSideProps, NextPage, InferGetServerSidePropsType } from 'next';
+import type {
+  GetServerSideProps,
+  NextPage,
+  InferGetServerSidePropsType,
+} from 'next';
 import { Formik, Form, Field } from 'formik';
 import Link from 'next/link';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
@@ -9,12 +13,14 @@ import { LoginProps } from '../services/user-service';
 import { getSession, signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-const Login: NextPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Login: NextPage = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
   const initialValues = {
     email: '',
     password: '',
   };
-  const router = useRouter()
+  const router = useRouter();
 
   // const { signIn } = useContext(AuthContext);
 
@@ -24,9 +30,11 @@ const Login: NextPage = (props: InferGetServerSidePropsType<typeof getServerSide
       password: password,
       redirect: false,
     });
-    console.log(res);
-    if(res.ok){
-      router.push('/cats')
+    // console.log(res);
+    if (res.ok) {
+      router.push('/cats');
+    } else {
+      console.log(res.error);
     }
   }
 
@@ -133,7 +141,7 @@ const Login: NextPage = (props: InferGetServerSidePropsType<typeof getServerSide
   );
 };
 export const getServerSideProps: GetServerSideProps = async (_ctx) => {
-  const session = await getSession();  
+  const session = await getSession();
   if (session) {
     return {
       redirect: {

@@ -33,12 +33,13 @@ function classNames(...classes: string[]) {
 }
 
 export function Layout({ children, title }: LayoutProps) {
-  const { user } = useContext(AuthContext);
+  const session = useRequireAuth();
+  console.log(session);
+
+  const user: any = session?.user;
   const { status } = useSession();
   const userPhoto =
-    user?.photo != null
-      ? `data:image/png;base64,${user?.photo}`
-      : '/images/avatar.jpg';
+    user?.photo != null ? ` ${user?.photo}` : '/images/avatar.jpg';
 
   const router = useRouter();
   // const { pathname } = router;
@@ -55,8 +56,6 @@ export function Layout({ children, title }: LayoutProps) {
   function handleLogout() {
     signOut({ redirect: false });
   }
-
-  const session = useRequireAuth();
 
   if (!session) return <div>loading...</div>;
 
@@ -114,13 +113,13 @@ export function Layout({ children, title }: LayoutProps) {
                         <div>
                           <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span className="sr-only">Open user menu</span>
-                            <Image
-                              width={20}
-                              height={20}
-                              className="h-8 w-8 rounded-full"
-                              src={userPhoto ? userPhoto : null}
-                              alt="User photo"
-                            />
+                            <picture>
+                              <img
+                                className="h-8 w-8 rounded-full"
+                                src={userPhoto}
+                                alt="User photo"
+                              />
+                            </picture>
                           </Menu.Button>
                         </div>
                         <Transition

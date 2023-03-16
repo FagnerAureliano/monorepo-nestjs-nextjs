@@ -1,9 +1,11 @@
-import { api } from '../../http';
+import axios from '../../lib/axios';
 
 class HttpCatsService {
   async findStatusCatByCode(code: string) {
     try {
-      return await api.get(process.env.NEXTAUTH_URL+`/http-status-cat/${code}`);
+      return await axios.get(
+        process.env.NEXTAUTH_URL + `/http-status-cat/${code}`
+      );
     } catch (error) {
       return error;
     }

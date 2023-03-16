@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
-import { api } from '../../../http';
+import axios from '../../../lib/axios';
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -24,31 +24,25 @@ export default NextAuth({
         password: {},
       },
       async authorize(credentials, req) {
-        const url = `${process.env.NEXTAUTH_URL}/auth/login`;
-
         try {
           if (!credentials?.email && !credentials?.password) {
             throw new Error('Email e senha requerido.');
           }
 
-          const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json;charset=UTF-8' },
-            body: JSON.stringify({
-              email: credentials.email,
-              password: credentials.password,
-            }),
+          const res = await axios.post('/auth/login', {
+            email: credentials?.email,
+            password: credentials?.password,
           });
-          const user = await res.json();
+          const user = await res.data;
 
-          if (res.ok && user) {
+          if (user) {
             return user;
           }
           throw new Error('Não foi possível autenticar usuário.');
-          // return null;
         } catch (error) {
-          console.error('Erro ao autenticar usuário:', error.message);
-          throw new Error('Não foi possível autenticar usuário.');
+          throw new Error(
+            `Não foi possível autenticar usuário: ${error.message}`
+          );
         }
       },
     }),
@@ -59,7 +53,7 @@ export default NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }) {
-      session.user = token;
+      session.user = token as any;
       return session;
     },
   },

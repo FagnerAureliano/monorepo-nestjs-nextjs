@@ -4,7 +4,7 @@ import { parseCookies, setCookie } from 'nookies';
 
 import userService from '../services/user-service';
 import Router from 'next/router';
-import { api } from '../http';
+import axios from '../lib/axios';
 
 type AuthContextTypes = {
   isAuthenticated: boolean;
@@ -62,7 +62,7 @@ export function AuthProvider({ children }) {
     setCookie(undefined, 'monorepo_auth_token', token, {
       maxAge: 60 * 60 * 1, // 1 hour
     });
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     if (user) {
       setUser({
         id: user?.id,

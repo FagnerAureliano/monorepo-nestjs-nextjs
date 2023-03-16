@@ -1,6 +1,4 @@
 //@ts-check
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withNx } = require('@nrwl/next/plugins/with-nx');
 
 /**
@@ -8,7 +6,11 @@ const { withNx } = require('@nrwl/next/plugins/with-nx');
  **/
 const nextConfig = {
   images: {
-    domains: ['i.pinimg.com', 'tailwindui.com','purr.objects-us-east-1.dream.io'],
+    domains: [
+      'i.pinimg.com',
+      'tailwindui.com',
+      'purr.objects-us-east-1.dream.io',
+    ],
   },
   nx: {
     // Set this to true if you would like to to use SVGR

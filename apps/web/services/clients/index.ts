@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { api } from '../../http';
+import axios from '../../lib/axios';
 
 interface ClientProps {
   name: string;
@@ -17,28 +17,28 @@ interface ClientProps {
 class ClientsService {
   async findAll(page: number = 0, size: number = 5) {
     try {
-      return await api.get(`/clients?page=${page}&size=${size}`);
+      return await axios.get(`/clients?page=${page}&size=${size}`);
     } catch (error) {
       return error;
     }
   }
   async findByID(id: string) {
     try {
-      return await api.get(`/clients/${id}`);
+      return await axios.get(`/clients/${id}`);
     } catch (error) {
       return error;
     }
   }
   async create(body: ClientProps) {
     try {
-      return await api.post(`/clients`, body);
+      return await axios.post(`/clients`, body);
     } catch (error) {
       return error;
     }
   }
   async update(body: ClientProps) {
     try {
-      return await api.patch(`/clients`, body);
+      return await axios.patch(`/clients`, body);
     } catch (error) {
       return error;
     }

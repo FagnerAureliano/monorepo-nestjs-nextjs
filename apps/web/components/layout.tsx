@@ -1,11 +1,8 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { Fragment, useContext, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { AuthContext } from 'apps/web/contexts/auth.context';
+import { AuthContext } from '../contexts/auth.context';
 import Image from 'next/image';
-import { api } from 'apps/web/http';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
@@ -34,12 +31,9 @@ function classNames(...classes: string[]) {
 
 export function Layout({ children, title }: LayoutProps) {
   const session = useRequireAuth();
-  console.log(session);
-
   const user: any = session?.user;
-  const { status } = useSession();
-  const userPhoto =
-    user?.photo != null ? ` ${user?.photo}` : '/images/avatar.jpg';
+
+  const userPhoto = user?.photo != null ? user?.photo : '/images/avatar.jpg';
 
   const router = useRouter();
   // const { pathname } = router;

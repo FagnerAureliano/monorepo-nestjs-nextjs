@@ -1,4 +1,4 @@
-import { api } from '../../http';
+import axios from '../../lib/axios';
 
 export interface LoginProps {
   email: string;
@@ -6,12 +6,11 @@ export interface LoginProps {
 }
 
 class UserService {
-  async login({ email, password }: LoginProps) { 
-    
+  async login({ email, password }: LoginProps) {
     try {
-      const { data } = await api.post('/auth/login', { email, password });
+      const { data } = await axios.post('/auth/login', { email, password });
       console.log(data);
-      
+
       return data;
     } catch (error) {
       return error;
@@ -19,14 +18,14 @@ class UserService {
   }
   async findById(id: string) {
     try {
-      return await api.get(`/users/${id}`);
+      return await axios.get(`/users/${id}`);
     } catch (error) {
       return error;
     }
   }
   async create(data: any) {
     try {
-      return await api.post(`/users`, data);
+      return await axios.post(`/users`, data);
     } catch (error) {
       return error;
     }

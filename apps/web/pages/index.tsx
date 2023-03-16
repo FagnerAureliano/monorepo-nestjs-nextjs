@@ -1,32 +1,58 @@
-import type { GetServerSideProps, NextPage } from 'next'; 
-import { signOut } from 'next-auth/react';
-import Image from 'next/image'; 
-import useRequireAuth from '../lib/use-require-auth';
+import type { NextPage } from 'next';
+import { Layout } from '../components/layout';
 
 const Home: NextPage = (props) => {
-  const session = useRequireAuth()
-
-  if(!session) return <div>loading...</div>
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <Image
-              width={200}
-              height={200}
-              src={
-                'https://i.pinimg.com/564x/84/eb/2b/84eb2b29ecae003e53d717946ff49dbd.jpg'
-              }
-              alt="Workflow"
-            />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              {`Seja bem vindo ${session?.user?.name}`}
-            </h2>
-            <button onClick={() => signOut()}>Sair</button>
+      <Layout title="">
+        <div className="flex flex-col p-20 justify-start items-center min-h-screen ">
+          <h1 className="text-3xl font-bold mb-4">Bem-vindo à nossa página!</h1>
+          <p className="text-center mb-4">
+            Aqui você encontrará diversas opções para aproveitar ao máximo sua
+            visita.
+          </p>
+          <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+            <div className="bg-white shadow-lg rounded-lg p-6 md:w-1/3">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                Explorar novos perfis
+              </h2>
+              <p className="text-lg mb-2 text-gray-700">
+                Temos uma lista aleatória de usuários para você navegar e
+                descobrir novas pessoas interessantes.
+              </p>
+              <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mt-4">
+                Explorar
+              </button>
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-6 md:w-1/3">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                Gatos
+              </h2>
+              <p className="text-lg mb-2 text-gray-700">
+                Escolha entre um gerador aleatório de imagens de gatos ou um
+                input de número correspondente a um status http que trará uma
+                imagem de gato para você.
+              </p>
+              <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mt-4">
+                Explorar
+              </button>
+            </div>
+            <div className="bg-white shadow-lg rounded-lg p-6 md:w-1/3">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                Clientes
+              </h2>
+              <p className="text-lg mb-2 text-gray-700">
+                Confira nossa lista de clientes e se inspire. E se precisar de
+                ajuda, nossa equipe de suporte está sempre à disposição para te
+                auxiliar.
+              </p>
+              <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full mt-4">
+                Explorar
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { Key, useEffect, useState } from 'react';
+import { Key } from 'react';
 import { Loading } from './loading';
 
 type TableProps = {
@@ -32,7 +32,7 @@ export function Table({
 
           return (
             <td className="px-6 py-4" key={index}>
-              {item[itemSplit[0]][itemSplit[1]]}
+              {item?[itemSplit[0]][itemSplit[1]]:''}
             </td>
           );
         } else if (

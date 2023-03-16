@@ -12,7 +12,7 @@ const Cats: NextPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [catImage, setCatImage] = useState<string | null>(data ? data : null);
   const [loading, setLoading] = useState(false);
-  const axiosAuth = useAxiosAuth();
+  // const axiosAuth = useAxiosAuth();
   async function handleRefresh() {
     setLoading(true);
     const catImage = await CatsService.getRandomCats();

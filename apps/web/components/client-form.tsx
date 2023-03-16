@@ -33,10 +33,10 @@ export function ClientForm({ data, onSubmit }: FormProps) {
       cpf: data ? data.cpf : '',
       phone: data ? data.phone : '',
       address: {
-        zipcode: data ? data.address.zipcode : '',
-        city: data ? data.address.city : '',
-        street: data ? data.address.street : '',
-        number: data ? data.address.number : '',
+        zipcode: data ? data.address?.zipcode : '',
+        city: data ? data.address?.city : '',
+        street: data ? data.address?.street : '',
+        number: data ? data.address?.number : '',
       },
     },
   });

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import useRequireAuth from '../lib/use-require-auth';
+import { Loading } from './loading';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ export interface LayoutProps {
 }
 
 const navigation: any = [
-  { name: 'Random Cats', href: '/cats', current: true },
+  { name: 'Random Cats', href: '/cats', current: false },
   { name: 'Users', href: '/random-users', current: false },
   { name: 'Http Cats', href: '/httpcat', current: false },
   { name: 'Clients', href: '/clients', current: false },
@@ -31,19 +32,17 @@ function classNames(...classes: string[]) {
 
 export function Layout({ children, title }: LayoutProps) {
   const session = useRequireAuth();
-  const user: any = session?.user;
+  const user = session?.user;
 
   const userPhoto = user?.photo != null ? user?.photo : '/images/avatar.jpg';
 
-  const router = useRouter();
-  // const { pathname } = router;
-  // console.log(pathname);
-
+  const { pathname } = useRouter();
+ 
+  console.log(navigation);
   function handleNav(item) {
     navigation.forEach((element) => {
       element.current = false;
     });
-
     const index = navigation.findIndex((res) => res.name === item.name);
     navigation[index].current = true;
   }
@@ -51,7 +50,12 @@ export function Layout({ children, title }: LayoutProps) {
     signOut({ redirect: false });
   }
 
-  if (!session) return <div>loading...</div>;
+  if (!session)
+    return (
+      <div className="w-full h-96">
+        <Loading />
+      </div>
+    );
 
   return (
     <>

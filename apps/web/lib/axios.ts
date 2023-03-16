@@ -11,12 +11,12 @@ export const axiosAuth = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-axios.interceptors.request.use(async function (config) {
-  const { data: session } = useSession();
-  console.log(session);
+// axios.interceptors.request.use(async function (config) {
+//   const { data: session } = useSession();
+//   console.log(session);
 
-  config.headers.Authorization = session.user.accessToken
-    ? `Bearer ${session.user.accessToken}`
-    : '';
-  return config;
-});
+//   config.headers.Authorization = session.user.accessToken
+//     ? `Bearer ${session.user.accessToken}`
+//     : '';
+//   return config;
+// });

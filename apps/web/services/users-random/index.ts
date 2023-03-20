@@ -1,14 +1,15 @@
-import axios from '../../lib/axios';
+import axios from '../../lib/api/api-client';
 
-class RandomUsersService {
-  async getRandomUsers() {
-    try {
-      const { data } = await axios.get('/random-users');
+export const randomUserService = {
+  findAll,
+};
 
-      return data;
-    } catch (error) {
-      return Error(error.message);
-    }
+async function findAll() {
+  try {
+    const { data } = await axios.get('/random-users');
+
+    return data;
+  } catch (error) {
+    return Error(error.message);
   }
 }
-export default new RandomUsersService();

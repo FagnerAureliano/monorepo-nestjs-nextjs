@@ -1,15 +1,13 @@
-import axios from '../../lib/axios';
+import ApiClient from '../../lib/api/api-client';
 
-class HttpCatsService {
-  async findStatusCatByCode(code: string) {
-    try {
-      return await axios.get(
-        process.env.NEXTAUTH_URL + `/http-status-cat/${code}`
-      );
-    } catch (error) {
-      return error;
-    }
+export const httpStatusService = {
+  findByCode,
+};
+
+async function findByCode(code: string) {
+  try {
+    return await ApiClient.get(`/http-status-cat/${code}`);
+  } catch (error) {
+    return error;
   }
 }
-
-export default new HttpCatsService();

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-inferrable-types */
-import axios from '../../lib/axios';
+import ApiClient from '../../lib/api/api-client';
 
 interface ClientProps {
   name: string;
@@ -14,35 +13,46 @@ interface ClientProps {
   };
 }
 
-class ClientsService {
-  async findAll(page: number = 0, size: number = 5) {
-    try {
-      return await axios.get(`/clients?page=${page}&size=${size}`);
-    } catch (error) {
-      return error;
-    }
-  }
-  async findByID(id: string) {
-    try {
-      return await axios.get(`/clients/${id}`);
-    } catch (error) {
-      return error;
-    }
-  }
-  async create(body: ClientProps) {
-    try {
-      return await axios.post(`/clients`, body);
-    } catch (error) {
-      return error;
-    }
-  }
-  async update(body: ClientProps) {
-    try {
-      return await axios.patch(`/clients`, body);
-    } catch (error) {
-      return error;
-    }
+export const clientService = {
+  findAll,
+  findByID,
+  create,
+  update,
+  delete: _delete,
+};
+
+async function findAll(page = 0, size = 5) {
+  try {
+    return await ApiClient.get(`/clients?page=${page}&size=${size}`);
+  } catch (error) {
+    return error;
   }
 }
-
-export default new ClientsService();
+async function findByID(id: string) {
+  try {
+    return await ApiClient.get(`/clients/${id}`);
+  } catch (error) {
+    return error;
+  }
+}
+async function create(body: ClientProps) {
+  try {
+    return await ApiClient.post(`/clients`, body);
+  } catch (error) {
+    return error;
+  }
+}
+async function update(body: ClientProps) {
+  try {
+    return await ApiClient.patch(`/clients`, body);
+  } catch (error) {
+    return error;
+  }
+}
+async function _delete(id: string) {
+  try {
+    return await ApiClient.delete(`/clients/${id}`);
+  } catch (error) {
+    return error;
+  }
+}

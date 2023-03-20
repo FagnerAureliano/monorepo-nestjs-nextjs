@@ -1,34 +1,59 @@
-import axios from '../../lib/axios';
+import axios from '../../lib/api/api-client';
 
 export interface LoginProps {
   email: string;
   password: string;
 }
 
-class UserService {
-  async login({ email, password }: LoginProps) {
-    try {
-      const { data } = await axios.post('/auth/login', { email, password });
-      console.log(data);
+export const userService = {
+  login,
+  findAll,
+  findByID,
+  create,
+  update,
+  delete: _delete,
+};
 
-      return data;
-    } catch (error) {
-      return error;
-    }
-  }
-  async findById(id: string) {
-    try {
-      return await axios.get(`/users/${id}`);
-    } catch (error) {
-      return error;
-    }
-  }
-  async create(data: any) {
-    try {
-      return await axios.post(`/users`, data);
-    } catch (error) {
-      return error;
-    }
+async function login({ email, password }: LoginProps) {
+  try {
+    const { data } = await axios.post('/auth/login', { email, password }); 
+    return data;
+  } catch (error) {
+    return error;
   }
 }
-export default new UserService();
+async function findByID(id: string) {
+  try {
+    return await axios.get(`/users/${id}`);
+  } catch (error) {
+    return error;
+  }
+}
+async function create(data: any) {
+  try {
+    return await axios.post(`/users`, data);
+  } catch (error) {
+    return error;
+  }
+}
+async function findAll() {
+  try {
+    return await axios.get(`/users`);
+  } catch (error) {
+    return error;
+  }
+}
+async function update(data: any) {
+  try {
+    return await axios.patch(`/users`, data);
+  } catch (error) {
+    return error;
+  }
+}
+async function _delete(id: string) {
+  try {
+    return await axios.delete(`/users/${id}`);
+  } catch (error) {
+    return error;
+  }
+}

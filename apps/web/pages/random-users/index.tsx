@@ -1,6 +1,6 @@
 import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useEffect, useState } from 'react';
-import RandomUsersService from '../../services/users-random';
+import { randomUserService } from '../../services/users-random';
 import { Layout } from '../../components/layout';
 import { Table } from '../../components/table';
 import { Loading } from '../../components/loading';
@@ -69,7 +69,7 @@ const RandomUsers: NextPage = ({
 export default RandomUsers;
 
 export const getServerSideProps = async (ctx) => {
-  const data = await RandomUsersService.getRandomUsers();
+  const data = await randomUserService.findAll();
   return {
     props: { data },
   };

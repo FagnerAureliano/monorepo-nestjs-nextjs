@@ -2,7 +2,7 @@ import { Loading } from '../../components/loading';
 import { useState } from 'react';
 import { Input } from '../../components/input';
 import { Layout } from '../../components/layout';
-import HttpCatsService from '../../services/http-cat';
+import { httpStatusService } from '../../services/http-cat';
 
 export default function HttpCat() {
   const [catImage, setCatImage] = useState<string | null>();
@@ -10,15 +10,17 @@ export default function HttpCat() {
 
   async function handleInputChange(code) {
     setLoading(true);
-    const { data } = await HttpCatsService.findStatusCatByCode(code);
-    setCatImage(data);
-    setLoading(false);
+    const resp = await httpStatusService.findByCode(code);
+    console.log(resp);
+
+    // setCatImage(data);
+    // setLoading(false);
   }
   return (
     <>
       <Layout title="Http Status Cat">
         <div className="flex flex-col items-center justify-center">
-          <div className="w-60   ">
+          <div className="w-60">
             <Input handleInput={handleInputChange} isButonSubmit={true} />
           </div>
           {catImage ? (
@@ -41,9 +43,11 @@ export default function HttpCat() {
             </div>
           ) : (
             <>
-              <div className='pt-4'>
-                <span className='p-2 font-bold'>Digite um número de Status HTTP</span>
-                <div className='p-2 text-base gap-3'>
+              <div className="pt-4">
+                <span className="p-2 font-bold">
+                  Digite um número de Status HTTP
+                </span>
+                <div className="p-2 text-base gap-3">
                   <p>Respostas de informação (100-199) </p>
                   <p>Respostas de sucesso (200-299),</p>
                   <p>Redirecionamentos (300-399)</p>

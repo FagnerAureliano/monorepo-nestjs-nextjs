@@ -32,7 +32,7 @@ const Login: NextPage = (
     });
     // console.log(res);
     if (res.ok) {
-      router.push('/cats');
+      router.push('/');
     } else {
       console.log(res.error);
     }

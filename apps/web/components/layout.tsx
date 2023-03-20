@@ -37,8 +37,7 @@ export function Layout({ children, title }: LayoutProps) {
   const userPhoto = user?.photo != null ? user?.photo : '/images/avatar.jpg';
 
   const { pathname } = useRouter();
- 
-  console.log(navigation);
+  
   function handleNav(item) {
     navigation.forEach((element) => {
       element.current = false;

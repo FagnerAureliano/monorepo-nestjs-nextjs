@@ -7,7 +7,7 @@ import { Table } from 'apps/web/components/table';
 import Pagination from 'apps/web/components/pagination';
 import { Loading } from 'apps/web/components/loading';
 import { Input } from 'apps/web/components/input';
-import ClientsService from '../../services/clients';
+import { clientService } from '../../services/clients';
 
 const column = [
   { heading: 'Name', value: 'name' },
@@ -34,7 +34,6 @@ const Clients: NextPage = ({ data, total }: Props) => {
     console.log(data);
   }
 
-
   function handleCreate() {
     nav.push(`/clients/create`);
   }
@@ -48,7 +47,7 @@ const Clients: NextPage = ({ data, total }: Props) => {
     console.log(pageNumber);
 
     setCurrentPage(pageNumber);
-    const { data } = await ClientsService.findAll(pageNumber);
+    const { data } = await clientService.findAll(pageNumber);
     console.log(data);
 
     setDataTable(data.data);
@@ -81,14 +80,13 @@ const Clients: NextPage = ({ data, total }: Props) => {
               handleUpdate={handleUpdate}
               isEditable={true}
             />
-           
-              <Pagination
-                _itemsLength={totalCount}
-                _itemsPerPage={itemsPerPage}
-                _pagesToShow={pagesToShow}
-                handlePage={handlePage}
-              />
-         
+
+            <Pagination
+              _itemsLength={totalCount}
+              _itemsPerPage={itemsPerPage}
+              _pagesToShow={pagesToShow}
+              handlePage={handlePage}
+            />
           </div>
         ) : (
           <div className="h-52">
@@ -102,8 +100,8 @@ const Clients: NextPage = ({ data, total }: Props) => {
 export default Clients;
 
 export const getServerSideProps = async (context) => {
-  const { data } = await ClientsService.findAll();
-  console.log(process.env.API_URL);
+  const { data } = await clientService.findAll();
+  
   return {
     props: { data: data },
   };

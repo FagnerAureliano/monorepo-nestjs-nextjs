@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
-import axios from '../../../lib/axios';
+import ApiClient from '../../../lib/api/api-client';
 
 export default NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -29,7 +29,7 @@ export default NextAuth({
             throw new Error('Email e senha requerido.');
           }
 
-          const res = await axios.post('/auth/login', {
+          const res = await ApiClient.post('/auth/login', {
             email: credentials?.email,
             password: credentials?.password,
           });

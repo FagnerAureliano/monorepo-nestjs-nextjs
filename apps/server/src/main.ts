@@ -5,7 +5,10 @@ import { AppModule } from './app/app.module';
 import { PrismaService } from './app/application/database/prisma.client';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
+  
   const prismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
   app.useGlobalPipes(
@@ -13,8 +16,6 @@ async function bootstrap() {
   );
   const globalPrefix = 'api/v1';
   app.setGlobalPrefix(globalPrefix);
-
-  app.enableCors();
 
   const port = process.env.PORT || 3333;
   await app.listen(port);

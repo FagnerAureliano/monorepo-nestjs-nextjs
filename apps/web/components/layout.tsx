@@ -36,8 +36,8 @@ export function Layout({ children, title }: LayoutProps) {
 
   const userPhoto = user?.photo != null ? user?.photo : '/images/avatar.jpg';
 
-  const { pathname } = useRouter();
-  
+  const { pathname, push } = useRouter();
+
   function handleNav(item) {
     navigation.forEach((element) => {
       element.current = false;
@@ -67,6 +67,7 @@ export function Layout({ children, title }: LayoutProps) {
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
                       <Image
+                        onClick={() => push('/')}
                         width={34}
                         height={34}
                         className="rounded-full"
@@ -214,6 +215,8 @@ export function Layout({ children, title }: LayoutProps) {
                       </div>
                     </div>
                     <button
+
+
                       type="button"
                       className="ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                     >

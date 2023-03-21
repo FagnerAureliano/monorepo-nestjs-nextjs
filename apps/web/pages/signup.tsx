@@ -2,9 +2,12 @@ import { UserIcon } from '@heroicons/react/24/solid';
 import { Formik, Form, Field } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
-import UserService from '../services/user-service';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { userService } from '../services/user-service';
 
 export default function SingUp() {
+  const { push } = useRouter();
   interface ISingUp {
     name: string;
     email: string;
@@ -20,29 +23,38 @@ export default function SingUp() {
   };
 
   async function handleSignUp({ name, email, password }: ISingUp) {
-    console.log(name, email, password);
-    
     if (initialValues.password != initialValues.passwordConfirm) {
       throw new Error('Error password wrong');
     }
     try {
-      await UserService.create({ name, email, password });
+      const { status } = await userService.create({ name, email, password });
+      if (status === 201) {
+        push('/login');
+      }
     } catch (error) {
-      console.log(error);
+      setError(error.message);
     }
   }
-
+  const [error, setError] = useState('');
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
+      {error && (
+        <div
+          className="bg-green-100 border-l-4 border-green-500 m-5 absolute float-right text-green-700 p-4"
+          role="alert"
+        >
+          <p className="font-bold">Be Warned</p>
+          <p>Something not ideal might be happening.</p>
+        </div>
+      )}
           <div>
             <Image
-              width={200}
-              height={200}
-              src={
-                'https://i.pinimg.com/564x/84/eb/2b/84eb2b29ecae003e53d717946ff49dbd.jpg'
-              }
+              width={350}
+              height={350}
+              className="mx-auto  w-auto"
+              src="/images/logo.png"
               alt="Workflow"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

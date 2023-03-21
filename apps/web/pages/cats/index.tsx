@@ -3,6 +3,7 @@ import { NextPage, InferGetServerSidePropsType } from 'next';
 import { Loading } from '../../components/loading';
 import { Layout } from '../../components/layout';
 import { getRandomCats } from '../../services/cats-random';
+import { userService } from '../../services/user-service';
 
 const Cats: NextPage = ({
   data,
@@ -15,6 +16,14 @@ const Cats: NextPage = ({
     const catImage = await getRandomCats();
     setCatImage(catImage);
     setLoading(false);
+  }
+  async function handleUser() {
+    try {
+      const users = await userService.findAll();
+      console.log(users);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

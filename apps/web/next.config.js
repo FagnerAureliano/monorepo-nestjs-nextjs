@@ -8,6 +8,7 @@ const nextConfig = {
   images: {
     domains: [
       'i.pinimg.com',
+      'github.com',
       'tailwindui.com',
       'purr.objects-us-east-1.dream.io',
     ],

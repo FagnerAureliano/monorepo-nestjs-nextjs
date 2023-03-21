@@ -1,22 +1,18 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
 import ApiClient from '../../../lib/api/api-client';
 
 export default NextAuth({
-  secret: process.env.NEXTAUTH_SECRET,
-  session: {
-    strategy: 'jwt',
-  },
-  jwt: {
-    secret: process.env.JWT_SIGNIN_PRIVATE_KEY,
-    maxAge: 24 * 60 * 60, // 24 hours
-  },
+  // secret: process.env.NEXTAUTH_SECRET,
+  // session: {
+  //   strategy: 'jwt',
+  // },
+  // jwt: {
+  //   secret: process.env.JWT_SIGNIN_PRIVATE_KEY,
+  //   maxAge: 24 * 60 * 60, // 24 hours
+  // },
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
+ 
     CredentialsProvider({
       name: 'AuthCredentials',
       credentials: {

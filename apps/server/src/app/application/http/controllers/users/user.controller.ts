@@ -9,8 +9,7 @@ import { FindUserUseCase } from '../../../use-cases/users/find-user-use-case';
 import { ListUserUseCase } from '../../../use-cases/users/list-users-use-case';
 import { UpdateUserUseCase } from '../../../use-cases/users/update-user-use-case';
 
-@Controller('users')
-@UseGuards(AuthGuard('jwt'))
+@Controller('users') 
 export class UserController {
   constructor(
     private readonly createUser: CreateUserUseCase,
@@ -26,19 +25,24 @@ export class UserController {
     return this.createUser.execute(body);
   }
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   async list(): Promise<IUser[]> {
     return this.listUser.execute();
   }
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   async findByID(@Param('id', new ParseUUIDPipe()) id: string): Promise<IUser> {
     return this.findUser.findById(id);
   }
+
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt')) 
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.removeUser.execute(id);
   }
   @Patch()
+  @UseGuards(AuthGuard('jwt'))
   async update(@Body() body: User): Promise<IUser> {
     return this.updateUser.execute(body);
   }

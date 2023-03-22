@@ -3,8 +3,8 @@ import { Formik, Form, Field } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { userService } from '../services/user-service';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function SingUp() {
   const { push } = useRouter();
@@ -29,26 +29,21 @@ export default function SingUp() {
     try {
       const { status } = await userService.create({ name, email, password });
       if (status === 201) {
-        push('/login');
+        toast.success('Cadastrado com sucesso !', { autoClose: 1000,
+          onClose: () => push('/login'),
+        });
       }
     } catch (error) {
-      setError(error.message);
+      toast.error(
+        'Erro ao cadastrar usuário. Verifique os campos preenxidos.'
+      );
     }
   }
-  const [error, setError] = useState('');
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
-      {error && (
-        <div
-          className="bg-green-100 border-l-4 border-green-500 m-5 absolute float-right text-green-700 p-4"
-          role="alert"
-        >
-          <p className="font-bold">Be Warned</p>
-          <p>Something not ideal might be happening.</p>
-        </div>
-      )}
+          <ToastContainer autoClose={2000} />
           <div>
             <Image
               width={350}

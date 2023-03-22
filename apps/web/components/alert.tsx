@@ -1,4 +1,7 @@
-import { ExclamationCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import {
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/24/outline';
 import { BellAlertIcon } from '@heroicons/react/24/solid';
 import React, { useEffect } from 'react';
 
@@ -34,15 +37,15 @@ const Alert = ({ type, message, onClose }) => {
 
   return (
     <div
-      className={`fixed top-10  w-1/3 right-0 p-4 rounded-md ${backgroundColorClass} ${textColorClass} transition duration-300 ease-in-out`}
+      className={`fixed top-10  w-1/3 right-2 p-4 rounded-md ${backgroundColorClass} ${textColorClass} transition duration-300 ease-in-out`}
       style={{ zIndex: 9999 }}
     >
       <div>
-        <div className='flex'>
-        <ExclamationTriangleIcon />
-          {message}
+        <div className="flex items-center gap-2 capitalize">
+          <ExclamationTriangleIcon className="h-10" />
+          {type}
         </div>
-        <div>{message}</div>
+        <div className="capitalize">{message}</div>
       </div>
     </div>
   );

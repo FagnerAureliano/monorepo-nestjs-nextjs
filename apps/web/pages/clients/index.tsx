@@ -2,6 +2,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import { Layout } from 'apps/web/components/layout';
 import { Table } from 'apps/web/components/table';
 import Pagination from 'apps/web/components/pagination';
@@ -17,41 +18,44 @@ const column = [
 ];
 interface Props {
   data: any;
-  total: number;
 }
 
-const Clients: NextPage = ({ data, total }: Props) => {
-  const nav = useRouter();
-
+const Clients: NextPage = ({ data }: Props) => {
+  const clients = data.data;
+  const total = data.total;
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [pagesToShow, setPagesToShow] = useState(3);
 
-  const [dataTable, setDataTable] = useState(data.data);
-  const [totalCount, setTotalCount] = useState(data.total);
+  const [dataTable, setDataTable] = useState(clients);
+  const [totalCount, setTotalCount] = useState(total);
+  const { push } = useRouter();
 
-  function handleDelete(data) {
-    console.log(data);
+  async function handleDelete({ id }) {
+    console.log(id); 
+    // try {
+    //   const res = await clientService.delete(id);
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error('Erro interno.');
+    // }
   }
 
   function handleCreate() {
-    nav.push(`/clients/create`);
+    push(`/clients/create`);
   }
-  function handleUpdate(data) {
-    console.log(data);
-
-    nav.push(`/clients/update/${data.id}`);
+  function handleUpdate({ id }) {
+    push(`/clients/update/${id}`);
   }
 
   async function handlePage(pageNumber: number) {
-    console.log(pageNumber);
-
     setCurrentPage(pageNumber);
-    const { data } = await clientService.findAll(pageNumber);
-    console.log(data);
-
-    setDataTable(data.data);
-    console.log(pageNumber);
+    try {
+      const { data } = await clientService.findAll(pageNumber);
+      setDataTable(data.data);
+    } catch (error) {
+      toast.error('Erro interno.');
+    }
   }
   function handleInputChange(data) {
     console.log(data);
@@ -59,20 +63,24 @@ const Clients: NextPage = ({ data, total }: Props) => {
   return (
     <>
       <Layout title="Clients">
+        <ToastContainer autoClose={2000} />
         {dataTable ? (
           <div>
-            <div className="flex place-content-between h-12">
-              <Input
-                placeholder="Search name, e-mail, phone ..."
-                handleInput={handleInputChange}
-              />
+            <div className="flex place-content-between h-12 content-end">
+              {data.total > 0 && (
+                <Input
+                  placeholder="Search name, e-mail, phone ..."
+                  handleInput={handleInputChange}
+                />
+              )}
               <button
-                className="text-white border border-gray-700 bg-gray-600 focus:ring-2 focus:outline-none focus:ring-gray-500 rounded-lg text-sm px-5 text-center  "
+                className="text-white relative float-right border border-gray-700 bg-gray-600 focus:ring-2 focus:outline-none focus:ring-gray-500 rounded-lg text-sm px-5 text-center  "
                 onClick={handleCreate}
               >
                 Create Client
               </button>
             </div>
+            
             <Table
               data={dataTable}
               column={column}
@@ -99,9 +107,9 @@ const Clients: NextPage = ({ data, total }: Props) => {
 };
 export default Clients;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (ctx) => {
   const { data } = await clientService.findAll();
-  
+
   return {
     props: { data: data },
   };

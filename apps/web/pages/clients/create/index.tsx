@@ -1,11 +1,9 @@
 import { NextPage } from 'next';
-import { Layout } from '../../../components/layout';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { clientService } from '../../../services/clients';
 import { useRouter } from 'next/router';
+import { toast, ToastContainer } from 'react-toastify';
+import { Layout } from '../../../components/layout';
+import { clientService } from '../../../services/clients';
 import ClientForm from '../../../components/client-form';
-import Alert from '../../../components/alert';
-import { useState } from 'react';
 
 interface ClientProps {
   name: string;
@@ -21,51 +19,30 @@ interface ClientProps {
 }
 
 const Clients: NextPage = (props: any) => {
-  const nav = useRouter();
+  const { push } = useRouter();
 
   async function onSubmit(data: ClientProps) {
     try {
-      await clientService.create(data);
+      const { status } = await clientService.create(data);
 
-      nav.push('/clients');
+      if (status === 201) {
+        toast.success('Cadastrado com sucesso !', {
+          autoClose: 1000,
+          onClose: () => push('/clients'),
+        });
+      }
     } catch (error) {
-      return error;
+      toast.error('Erro ao cadastrar cliente. Verifique os campos preenxidos.');
     }
   }
-
-  const [alert, setAlert] = useState(null);
-
-  const handleCloseAlert = () => {
-    setAlert(null);
-  };
-
-  const handleShowAlert = (type, message) => {
-    setAlert({ type, message });
-  };
 
   return (
     <>
       <Layout title="Create Client">
-        <button onClick={() => handleShowAlert('success', 'Success message')}>
-          Show Success Alert
-        </button>
-        {alert && (
-          <Alert
-            type={alert.type}
-            message={alert.message}
-            onClose={handleCloseAlert}
-          />
-        )}
+        <ToastContainer autoClose={2000} />
         <ClientForm onSubmit={onSubmit} />
       </Layout>
     </>
   );
 };
 export default Clients;
-
-export const getServerSideProps = async (ctx) => {
-  const id = ctx.query.id;
-  return {
-    props: {},
-  };
-};

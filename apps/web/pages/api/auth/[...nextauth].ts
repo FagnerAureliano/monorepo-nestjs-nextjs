@@ -12,7 +12,6 @@ export default NextAuth({
   //   maxAge: 24 * 60 * 60, // 24 hours
   // },
   providers: [
- 
     CredentialsProvider({
       name: 'AuthCredentials',
       credentials: {
@@ -36,9 +35,7 @@ export default NextAuth({
           }
           throw new Error('Não foi possível autenticar usuário.');
         } catch (error) {
-          throw new Error(
-            `Não foi possível autenticar usuário: ${error.message}`
-          );
+          throw new Error(`Não foi possível autenticar usuário.`);
         }
       },
     }),

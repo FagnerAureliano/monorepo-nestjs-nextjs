@@ -1,5 +1,6 @@
 import './../styles/global.css'; 
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
+
 import Head from 'next/head';
 import { useContext } from 'react';
 import { SessionProvider } from 'next-auth/react';

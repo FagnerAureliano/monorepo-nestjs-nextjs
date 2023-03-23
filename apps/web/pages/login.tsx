@@ -5,42 +5,36 @@ import type {
 } from 'next';
 import { Formik, Form, Field } from 'formik';
 import Link from 'next/link';
-import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Image from 'next/image';
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/auth.context';
+import { LockClosedIcon } from '@heroicons/react/24/solid';
 import { LoginProps } from '../services/user-service';
-import { getSession, signIn, useSession } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { toast, ToastContainer } from 'react-toastify';
 
-const Login: NextPage = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
+const Login: NextPage = (props: any) => {
   const initialValues = {
     email: '',
     password: '',
   };
   const router = useRouter();
-
-  // const { signIn } = useContext(AuthContext);
-
   async function handleSignIn({ email, password }: LoginProps) {
     const res = await signIn('credentials', {
       email: email,
       password: password,
       redirect: false,
     });
-    // console.log(res);
     if (res.ok) {
       router.push('/');
     } else {
-      console.log(res.error);
+      toast.error(res.error + ' E-mail e/ou senha inválido.');
     }
   }
 
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <ToastContainer autoClose={2000} />
         <div className="max-w-md w-full space-y-8">
           <div>
             <Image
@@ -88,17 +82,17 @@ const Login: NextPage = (
                 </div>
               </div>
               <button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <LockClosedIcon
-                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                      aria-hidden="true"
-                    />
-                  </span>
-                  Entrar
-                </button>
+                type="submit"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <LockClosedIcon
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    aria-hidden="true"
+                  />
+                </span>
+                Entrar
+              </button>
               <div className="flex items-center justify-between">
                 <div className="text-sm">
                   <Link href="/signup">
@@ -115,9 +109,6 @@ const Login: NextPage = (
                     Esqueceu a senha?
                   </a>
                 </div>
-              </div> 
-              <div>
-                
               </div>
             </Form>
           </Formik>
@@ -125,23 +116,6 @@ const Login: NextPage = (
       </div>
     </>
   );
-};
-export const getServerSideProps: GetServerSideProps = async (_ctx) => {
-  const session = await getSession();
-  if (session) {
-    return {
-      redirect: {
-        destination: '/home',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
 };
 
 export default Login;

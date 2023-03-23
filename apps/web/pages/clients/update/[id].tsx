@@ -1,26 +1,33 @@
 import { useState } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { toast, ToastContainer } from 'react-toastify';
+import { clientService } from '../../../services/clients';
 import ClientForm from '../../../components/client-form';
 import { Layout } from '../../../components/layout';
-import { clientService } from '../../../services/clients';
-import { useRouter } from 'next/router';
 
 const Createlients: NextPage = ({ data }: any) => {
-  const nav = useRouter();
+  const [client] = useState(data);
+  const { push } = useRouter();
 
   async function onSubmit(data) {
     try {
-      await clientService.update(data);
-      nav.push('/clients');
+      const { status } = await clientService.update(data);
+      if (status === 200) {
+        toast.success('Atualizado com sucesso !', {
+          autoClose: 1000,
+          onClose: () => push('/clients'),
+        });
+      }
     } catch (error) {
-      return error;
+      toast.error('Erro ao atualizar cliente. Verifique os campos preenxidos.');
     }
   }
-  const [client, setClient] = useState(data);
 
   return (
     <>
       <Layout title="Clients">
+        <ToastContainer autoClose={2000} />
         <ClientForm data={client} onSubmit={onSubmit} />
       </Layout>
     </>

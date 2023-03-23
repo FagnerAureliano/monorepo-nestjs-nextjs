@@ -14,7 +14,6 @@ export default function SingUp() {
     password: string;
   }
 
-  //   const { signUp } = useContext(AuthContext)
   const initialValues = {
     name: '',
     email: '',
@@ -23,20 +22,19 @@ export default function SingUp() {
   };
 
   async function handleSignUp({ name, email, password }: ISingUp) {
-    if (initialValues.password != initialValues.passwordConfirm) {
-      throw new Error('Error password wrong');
+    if (password != initialValues.passwordConfirm) {
+      return toast.error('Erro ao cadastrar usuário. Password inválido.');
     }
     try {
       const { status } = await userService.create({ name, email, password });
       if (status === 201) {
-        toast.success('Cadastrado com sucesso !', { autoClose: 1000,
+        toast.success('Cadastrado com sucesso !', {
+          autoClose: 1000,
           onClose: () => push('/login'),
         });
       }
     } catch (error) {
-      toast.error(
-        'Erro ao cadastrar usuário. Verifique os campos preenxidos.'
-      );
+      toast.error('Erro ao cadastrar usuário. Verifique os campos preenxidos.');
     }
   }
   return (

@@ -1,5 +1,5 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { Key } from 'react';
+import { Key, useState } from 'react';
 import { Loading } from './loading';
 
 type TableProps = {
@@ -17,6 +17,26 @@ export function Table({
   handleUpdate,
   isEditable,
 }: TableProps) {
+
+
+  //
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [row, setRow] = useState();
+  function handleDeleteRow(data) {
+    setRow(data);
+    setShowConfirmDialog(true);
+  }
+
+  function confirmDelete() {
+    handleDelete(row);
+    // Delete logic goes here
+    setShowConfirmDialog(false);
+  }
+
+  function cancelDelete() {
+    setShowConfirmDialog(false);
+  }
+//
   const TableHeadItem = ({ item }) => (
     <th className="px-6 py-3">{item.heading}</th>
   );
@@ -32,7 +52,7 @@ export function Table({
 
           return (
             <td className="px-6 py-4" key={index}>
-              {item?[itemSplit[0]][itemSplit[1]]:''}
+              {item ? [itemSplit[0]][itemSplit[1]] : ''}
             </td>
           );
         } else if (
@@ -79,6 +99,27 @@ export function Table({
 
   return (
     <>
+      {showConfirmDialog && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-8 rounded shadow-lg">
+            <p className="mb-4">Are you sure you want to delete?</p>
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded mr-2"
+                onClick={confirmDelete}
+              >
+                Yes
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-500 text-white rounded"
+                onClick={cancelDelete}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {data.length > 0 ? (
         <div className="my-2 relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -96,7 +137,7 @@ export function Table({
                   key={index}
                   item={item}
                   column={column}
-                  handleDelete={handleDelete}
+                  handleDelete={handleDeleteRow}
                   handleUpdate={handleUpdate}
                 />
               ))}

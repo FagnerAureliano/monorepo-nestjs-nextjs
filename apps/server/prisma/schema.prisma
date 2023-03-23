@@ -39,7 +39,7 @@ model Address {
   number   String
   city     String
   zipcode  String
-  client   Clients @relation(fields: [clientId], references: [id])
+  client   Clients @relation(fields: [clientId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   clientId String  @unique
 }
 

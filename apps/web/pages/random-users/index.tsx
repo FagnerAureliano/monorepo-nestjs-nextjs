@@ -49,7 +49,6 @@ const RandomUsers: NextPage = ({
               data={currentItems}
               isEditable={false}
             ></Table>
-
             <Pagination
               handlePage={handlePage}
               _itemsPerPage={itemsPerPage}
@@ -69,8 +68,15 @@ const RandomUsers: NextPage = ({
 export default RandomUsers;
 
 export const getServerSideProps = async (ctx) => {
-  const data = await randomUserService.findAll();
+  //TODO: resolver tratamento para error
+  let response: any;
+  try {
+    const data = await randomUserService.findAll();
+    response = data;
+  } catch (error) {
+    response = null;
+  }
   return {
-    props: { data },
+    props: { data: response },
   };
 };

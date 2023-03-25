@@ -17,8 +17,6 @@ export function Table({
   handleUpdate,
   isEditable,
 }: TableProps) {
-
-
   //
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [row, setRow] = useState();
@@ -36,7 +34,7 @@ export function Table({
   function cancelDelete() {
     setShowConfirmDialog(false);
   }
-//
+  //
   const TableHeadItem = ({ item }) => (
     <th className="px-6 py-3">{item.heading}</th>
   );
@@ -52,7 +50,7 @@ export function Table({
 
           return (
             <td className="px-6 py-4" key={index}>
-              {item ? [itemSplit[0]][itemSplit[1]] : ''}
+              {item ? item[itemSplit[0]][itemSplit[1]] : ''}
             </td>
           );
         } else if (

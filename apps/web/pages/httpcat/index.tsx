@@ -3,22 +3,26 @@ import { useState } from 'react';
 import { Input } from '../../components/input';
 import { Layout } from '../../components/layout';
 import { httpStatusService } from '../../services/http-cat';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function HttpCat() {
   const [catImage, setCatImage] = useState<string | null>();
   const [loading, setLoading] = useState(false);
 
-  async function handleInputChange(code) {
+  async function handleInputChange(code: string) {
     setLoading(true);
-    const resp = await httpStatusService.findByCode(code);
-    console.log(resp);
-
-    // setCatImage(data);
-    // setLoading(false);
+    try {
+      const { data } = await httpStatusService.findByCode(code);
+      setCatImage(data);
+      setLoading(false);
+    } catch (error) {
+      toast.error('Erro interno.');
+    }
   }
   return (
     <>
       <Layout title="Http Status Cat">
+        <ToastContainer autoClose={2000} />
         <div className="flex flex-col items-center justify-center">
           <div className="w-60">
             <Input handleInput={handleInputChange} isButonSubmit={true} />

@@ -32,7 +32,7 @@ const Clients: NextPage = ({ data }: Props) => {
   const { push } = useRouter();
 
   async function handleDelete({ id }) {
-    console.log(id); 
+    console.log(id);
     // try {
     //   const res = await clientService.delete(id);
     // } catch (error) {
@@ -80,7 +80,7 @@ const Clients: NextPage = ({ data }: Props) => {
                 Create Client
               </button>
             </div>
-            
+
             <Table
               data={dataTable}
               column={column}

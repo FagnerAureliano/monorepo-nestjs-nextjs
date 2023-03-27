@@ -7,7 +7,7 @@ import { Formik, Form, Field } from 'formik';
 import Link from 'next/link';
 import Image from 'next/image';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
-import { LoginProps } from '../services/user-service';
+import { LoginProps } from '../../services/user-service';
 import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
@@ -37,13 +37,13 @@ const Login: NextPage = (props: any) => {
         <ToastContainer autoClose={2000} />
         <div className="max-w-md w-full space-y-8">
           <div>
-            <Image
-              width={350}
-              height={350}
-              className="mx-auto  w-auto"
-              src="/images/logo.png"
-              alt="Workflow"
-            />
+            <picture>
+              <img
+                className="mx-auto  w-auto"
+                src="/images/logo.png"
+                alt="Workflow"
+              />
+            </picture>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Entre com sua conta
             </h2>

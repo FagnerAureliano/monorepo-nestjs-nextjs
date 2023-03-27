@@ -1,11 +1,9 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { AuthContext } from '../contexts/auth.context';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import useRequireAuth from '../lib/use-require-auth';
 import { Loading } from './loading';
 
@@ -21,9 +19,9 @@ const navigation: any = [
   { name: 'Clients', href: '/clients', current: false },
 ];
 const userNavigation = [
-  { name: 'Your Profile', href: '#' },
+  { name: 'Your Profile', href: '/profile' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
+  { name: 'Sign out', href: '/' },
 ];
 
 function classNames(...classes: string[]) {
@@ -71,13 +69,13 @@ export function Layout({ children, title }: LayoutProps) {
                   <div className="flex items-center">
                     <Link href={'/'}>
                       <div className="flex-shrink-0">
-                        <Image
-                          width={34}
-                          height={34}
-                          className="rounded-full hover:ring-2 hover:ring-white"
-                          src="/images/logo.png"
-                          alt="Your Company"
-                        />
+                        <picture>
+                          <img
+                            className="rounded-full hover:ring-2 w-10 h-10 hover:ring-white"
+                            src="/images/logo.png"
+                            alt="Your Company"
+                          />
+                        </picture>
                       </div>
                     </Link>
                     <div className="hidden md:block">
@@ -185,7 +183,7 @@ export function Layout({ children, title }: LayoutProps) {
                 <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
                   {navigation.map((item) => (
                     <Link
-                      key={item.name} 
+                      key={item.name}
                       href={item.href}
                       className={classNames(
                         item.current

@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { userService } from '../services/user-service';
+import { userService } from '../../services/user-service';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function SingUp() {

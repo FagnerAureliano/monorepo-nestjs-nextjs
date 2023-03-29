@@ -9,6 +9,7 @@ import Pagination from 'apps/web/components/pagination';
 import { Loading } from 'apps/web/components/loading';
 import { Input } from 'apps/web/components/input';
 import { clientService } from '../../services/clients';
+import ModalConfirm from 'apps/web/components/modal-confirm';
 
 const column = [
   { heading: 'Name', value: 'name' },
@@ -28,10 +29,10 @@ const Clients: NextPage = ({ data }: Props) => {
   const [pagesToShow, setPagesToShow] = useState(3);
 
   const [dataTable, setDataTable] = useState(clients);
-  const [totalCount, setTotalCount] = useState(total);
+  const [totalCount, setTotalCount] = useState(total); 
   const { push } = useRouter();
-
-  async function handleDelete({ id }) {
+ 
+  async function handleDelete({ id }) { 
     console.log(id);
     // try {
     //   const res = await clientService.delete(id);
@@ -57,30 +58,14 @@ const Clients: NextPage = ({ data }: Props) => {
       toast.error('Erro interno.');
     }
   }
-  function handleInputChange(data) {
-    console.log(data);
-  }
+  
   return (
     <>
       <Layout title="Clients">
         <ToastContainer autoClose={2000} />
         {dataTable ? (
-          <div>
-            <div className="flex place-content-between h-12 content-end">
-              {data.total > 0 && (
-                <Input
-                  placeholder="Search name, e-mail, phone ..."
-                  handleInput={handleInputChange}
-                />
-              )}
-              <button
-                className="text-white relative float-right border border-gray-700 bg-gray-600 focus:ring-2 focus:outline-none focus:ring-gray-500 rounded-lg text-sm px-5 text-center  "
-                onClick={handleCreate}
-              >
-                Create Client
-              </button>
-            </div>
-
+          <>
+          
             <Table
               data={dataTable}
               column={column}
@@ -95,7 +80,7 @@ const Clients: NextPage = ({ data }: Props) => {
               _pagesToShow={pagesToShow}
               handlePage={handlePage}
             />
-          </div>
+          </>
         ) : (
           <div className="h-52">
             <Loading />

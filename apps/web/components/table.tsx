@@ -1,5 +1,5 @@
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { Key, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { Loading } from './loading';
 import ModalConfirm from './modal-confirm';
 
@@ -30,11 +30,16 @@ export function Table({
     handleDelete(row);
     setShowConfirmDialog(!showConfirmDialog);
   }
+  const cancelDelete = () => setShowConfirmDialog(false);
 
-  function cancelDelete() {
-    setShowConfirmDialog(false);
-  }
-  //
+  useEffect(() => {
+    if (!showConfirmDialog) {
+      document.addEventListener('click', function (event) {
+        setShowConfirmDialog(!showConfirmDialog);
+      });
+    }
+  });
+
   const TableHeadItem = ({ item }) => (
     <th className="px-6 py-3">{item.heading}</th>
   );

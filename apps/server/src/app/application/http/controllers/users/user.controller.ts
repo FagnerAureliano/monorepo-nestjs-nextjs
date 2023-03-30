@@ -25,7 +25,7 @@ export class UserController {
     return this.createUser.execute(body);
   }
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   async list(): Promise<IUser[]> {
     return this.listUser.execute();
   }
@@ -42,7 +42,7 @@ export class UserController {
     return this.removeUser.execute(id);
   }
   @Patch()
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   async update(@Body() body: User): Promise<IUser> {
     return this.updateUser.execute(body);
   }

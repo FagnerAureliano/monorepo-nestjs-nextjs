@@ -52,7 +52,9 @@ export class CreateUserUseCase {
       });
       return user;
     } catch (error) {
-      throw new BadRequestException(`Erro ao tentar cadastrar. ${error.message}`);
+      throw new BadRequestException(
+        `Erro ao tentar cadastrar. ${error.message}`
+      );
     }
   }
 }

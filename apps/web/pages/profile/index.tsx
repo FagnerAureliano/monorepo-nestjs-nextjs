@@ -58,7 +58,6 @@ export default function Profile() {
 
   async function handleEditPassword(data: Event) {
     setIsDisabled(!isDisabled);
-    console.log(data.target);
   }
 
   const generateAvatar = async () => {

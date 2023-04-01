@@ -1,15 +1,24 @@
-import { Delete, HttpCode, HttpStatus, ParseUUIDPipe, Patch } from '@nestjs/common';
+import {
+  Delete,
+  HttpCode,
+  HttpStatus,
+  ParseUUIDPipe,
+  Patch,
+} from '@nestjs/common';
 import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport'; 
+import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
-import { IUser } from '../../../interfaces/user.interface';
+import {
+  UpdateUserRequest,
+  UserRequest,
+} from '../../../interfaces/user.interface';
 import { CreateUserUseCase } from '../../../use-cases/users/create-user-use-case';
 import { DeleteUserUseCase } from '../../../use-cases/users/delete-user-use-case';
 import { FindUserUseCase } from '../../../use-cases/users/find-user-use-case';
 import { ListUserUseCase } from '../../../use-cases/users/list-users-use-case';
 import { UpdateUserUseCase } from '../../../use-cases/users/update-user-use-case';
 
-@Controller('users') 
+@Controller('users')
 export class UserController {
   constructor(
     private readonly createUser: CreateUserUseCase,
@@ -17,33 +26,34 @@ export class UserController {
     private readonly listUser: ListUserUseCase,
     private readonly removeUser: DeleteUserUseCase,
     private readonly updateUser: UpdateUserUseCase
-
   ) {}
 
   @Post()
-  async create(@Body() body: IUser): Promise<IUser> {
+  async create(@Body() body: UserRequest): Promise<UserRequest> {
     return this.createUser.execute(body);
   }
   @Get()
-  // @UseGuards(AuthGuard('jwt'))
-  async list(): Promise<IUser[]> {
+  @UseGuards(AuthGuard('jwt'))
+  async list(): Promise<UserRequest[]> {
     return this.listUser.execute();
   }
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
-  async findByID(@Param('id', new ParseUUIDPipe()) id: string): Promise<IUser> {
+  async findByID(
+    @Param('id', new ParseUUIDPipe()) id: string
+  ): Promise<UserRequest> {
     return this.findUser.findById(id);
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard('jwt')) 
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.removeUser.execute(id);
   }
   @Patch()
-  // @UseGuards(AuthGuard('jwt'))
-  async update(@Body() body: User): Promise<IUser> {
+  @UseGuards(AuthGuard('jwt'))
+  async update(@Body() body: User): Promise<UpdateUserRequest> {
     return this.updateUser.execute(body);
   }
 }

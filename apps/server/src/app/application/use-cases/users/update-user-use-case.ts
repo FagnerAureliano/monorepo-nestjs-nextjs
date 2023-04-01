@@ -1,50 +1,50 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { compare, hash } from 'bcrypt';
 import { PrismaService } from '../../database/prisma.client';
 import { MessagesHelper } from '../../../helpers/message.helper';
-import { compare, hash } from 'bcrypt';
-
-type UpdateUserRequest = {
-  id: string;
-  email?: string;
-  name?: string;
-  photo?: string | undefined;
-  password?: string;
-  newPassword?: string | undefined;
-};
+import { UpdateUserRequest } from '../../interfaces/user.interface';
 
 @Injectable()
 export class UpdateUserUseCase {
   constructor(private prisma: PrismaService) {}
 
-  async execute(data: UpdateUserRequest) {
+  async execute({
+    id,
+    email,
+    name,
+    photo,
+    password,
+    newPassword,
+  }: UpdateUserRequest) {
     const hasUser = await this.prisma.user.findFirst({
       where: {
-        id: data.id,
+        id,
       },
     });
     if (!hasUser) throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
 
-    const passwordMacth = await compare(data.password, hasUser?.password);
+    const passwordMacth = await compare(password, hasUser?.password);
 
     if (!passwordMacth)
       throw new NotFoundException(MessagesHelper.EMAIL_OR_PASSWORD_INVALID);
 
     let hashPassword: string;
 
-    if (data.newPassword) {
-      hashPassword = await hash(data.newPassword, 10);
+    if (newPassword) {
+      hashPassword = await hash(newPassword, 10);
     } else {
-      hashPassword = await hash(data.password, 10);
+      hashPassword = await hash(password, 10);
     }
 
     try {
       return this.prisma.user.update({
         where: {
-          id: data.id,
+          id,
         },
         data: {
-          ...data,
+          email,
+          name,
+          photo,
           password: hashPassword,
         },
       });

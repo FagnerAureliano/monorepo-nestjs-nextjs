@@ -12,6 +12,7 @@ export default function SingUp() {
     name: string;
     email: string;
     password: string;
+    passwordConfirm: string;
   }
 
   const initialValues = {
@@ -21,8 +22,13 @@ export default function SingUp() {
     passwordConfirm: '',
   };
 
-  async function handleSignUp({ name, email, password }: ISingUp) {
-    if (password != initialValues.passwordConfirm) {
+  async function handleSignUp({
+    name,
+    email,
+    password,
+    passwordConfirm,
+  }: ISingUp) {
+    if (password != passwordConfirm) {
       return toast.error('Erro ao cadastrar usuário. Password inválido.');
     }
     try {
@@ -39,7 +45,7 @@ export default function SingUp() {
   }
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-full flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <ToastContainer autoClose={2000} />
           <div>

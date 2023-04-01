@@ -14,46 +14,48 @@ export default function Profile() {
   interface IUpdate {
     name: string;
     email: string;
-    old_password: string;
     password: string;
+    newPassword: string;
+    passwordConfirm: string;
   }
 
   const initialValues = {
     name: '',
     email: '',
-    old_password: '',
     password: '',
+    newPassword: '',
     passwordConfirm: '',
   };
 
   async function handleSignUp({
     name,
     email,
-    old_password,
     password,
+    newPassword,
+    passwordConfirm
   }: IUpdate) {
     console.log(
       name,
       email,
-      old_password,
       password,
-      initialValues.passwordConfirm
+      newPassword,
+      passwordConfirm
     );
 
-    // if (password != initialValues.passwordConfirm) {
-    //   return toast.error('Erro ao cadastrar usuário. Password inválido.');
-    // }
-    // try {
-    //   const { status } = await userService.create({ name, email, password });
-    //   if (status === 201) {
-    //     toast.success('Cadastrado com sucesso !', {
-    //       autoClose: 1000,
-    //       onClose: () => push('/login'),
-    //     });
-    //   }
-    // } catch (error) {
-    //   toast.error('Erro ao cadastrar usuário. Verifique os campos preenxidos.');
-    // }
+    if (newPassword != passwordConfirm) {
+      return toast.error('Erro ao cadastrar usuário. Password inválido.');
+    }
+    try {
+      const { status } = await userService.create({ name, email, password, newPassword });
+      if (status === 201) {
+        toast.success('Cadastrado com sucesso !', {
+          autoClose: 1000,
+          onClose: () => push('/login'),
+        });
+      }
+    } catch (error) {
+      toast.error('Erro ao cadastrar usuário. Verifique os campos preenxidos.');
+    }
   }
 
   async function handleEditPassword(data: Event) {
@@ -120,10 +122,10 @@ export default function Profile() {
                     />
                   </div>
                   <div className="flex gap-2">
-                    <label htmlFor="old_password" className="sr-only" />
+                    <label htmlFor="password" className="sr-only" />
                     <Field
-                      id="old_password"
-                      name="old_password"
+                      id="password"
+                      name="password"
                       type="password"
                       required
                       disabled={isDisabled}
@@ -148,11 +150,11 @@ export default function Profile() {
                   {!isDisabled && (
                     <>
                       <div>
-                        <label htmlFor="password" className="sr-only" />
+                        <label htmlFor="newPassword" className="sr-only" />
                         <Field
-                          id="password"
-                          name="password"
-                          type="password"
+                          id="newPassword"
+                          name="newPassword"
+                          type="newPassword"
                           required
                           className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                           placeholder="Nova senha"
@@ -175,7 +177,7 @@ export default function Profile() {
 
                 <div className="flex gap-2">
                   <button
-                    type="submit"
+                    type="reset"
                     className="group relative w-2/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                   >
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">

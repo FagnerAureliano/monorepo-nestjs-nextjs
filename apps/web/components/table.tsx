@@ -32,12 +32,13 @@ export function Table({
   }
   const cancelDelete = () => setShowConfirmDialog(false);
 
-  document.addEventListener('click', function (event) { 
-    console.log(event);
-    
-    // if (event['pointerId'] == 1 && showConfirmDialog )    setShowConfirmDialog(!showConfirmDialog);
+  useEffect(() => {
+    if (!showConfirmDialog) {
+      document.addEventListener('click', function (event) {
+        setShowConfirmDialog(!showConfirmDialog);
+      });
+    }
   });
-
 
   const TableHeadItem = ({ item }) => (
     <th className="px-6 py-3">{item.heading}</th>

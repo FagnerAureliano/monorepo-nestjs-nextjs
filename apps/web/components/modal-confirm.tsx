@@ -4,11 +4,15 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 interface ModalProps {
   showModal: boolean;
+  headerMessage: string;
+  bodyMessage: string;
   handleConfirm?(): void;
   handleCancel?(): void;
 }
 
 export default function ModalConfirm({
+  headerMessage,
+  bodyMessage,
   showModal,
   handleConfirm,
   handleCancel,
@@ -62,14 +66,10 @@ export default function ModalConfirm({
                         as="h3"
                         className="text-base font-semibold leading-6 text-gray-900"
                       >
-                        Deactivate account
+                        {headerMessage}
                       </Dialog.Title>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">
-                          Are you sure you want to deactivate your account? All
-                          of your data will be permanently removed. This action
-                          cannot be undone.
-                        </p>
+                        <p className="text-sm text-gray-500">{bodyMessage}</p>
                       </div>
                     </div>
                   </div>
@@ -77,10 +77,10 @@ export default function ModalConfirm({
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
                     onClick={handleConfirm}
                   >
-                    Deactivate
+                    Sim
                   </button>
                   <button
                     type="button"
@@ -88,7 +88,7 @@ export default function ModalConfirm({
                     onClick={handleCancel}
                     ref={cancelButtonRef}
                   >
-                    Cancel
+                    Não
                   </button>
                 </div>
               </Dialog.Panel>

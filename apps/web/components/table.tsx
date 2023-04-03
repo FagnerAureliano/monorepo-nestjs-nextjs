@@ -32,13 +32,12 @@ export function Table({
   }
   const cancelDelete = () => setShowConfirmDialog(false);
 
-  useEffect(() => {
-    if (!showConfirmDialog) {
-      document.addEventListener('click', function (event) {
-        setShowConfirmDialog(!showConfirmDialog);
-      });
-    }
+  document.addEventListener('click', function (event) { 
+    console.log(event);
+    
+    // if (event['pointerId'] == 1 && showConfirmDialog )    setShowConfirmDialog(!showConfirmDialog);
   });
+
 
   const TableHeadItem = ({ item }) => (
     <th className="px-6 py-3">{item.heading}</th>
@@ -86,19 +85,21 @@ export function Table({
           <>
             <td className="text-end">
               <ModalConfirm
+                headerMessage="Deletar cliente"
+                bodyMessage="Deseja realmente deletar esse cliente?"
                 handleCancel={cancelDelete}
                 handleConfirm={confirmDelete}
                 showModal={showConfirmDialog}
               />
               <button
                 onClick={() => handleUpdate(item)}
-                className="px-3 py-2  mr-1  focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-1 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
                 <PencilIcon className="w-4 h-4" />
               </button>
               <button
                 onClick={() => handleDeleteRow(item)}
-                className="focus:outline-none text-white bg-red-200 hover:bg-red-800 focus:ring-1 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2  mb-2 dark:bg-red-400 dark:hover:bg-red-400 dark:focus:ring-red-500"
+                className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
               >
                 <TrashIcon className="w-4 h-4" />
               </button>

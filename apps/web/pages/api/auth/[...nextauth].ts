@@ -3,14 +3,14 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import ApiClient from '../../../lib/api/api-client';
 
 export default NextAuth({
-  // secret: process.env.NEXTAUTH_SECRET,
-  // session: {
-  //   strategy: 'jwt',
-  // },
-  // jwt: {
-  //   secret: process.env.JWT_SIGNIN_PRIVATE_KEY,
-  //   maxAge: 24 * 60 * 60, // 24 hours
-  // },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
+  jwt: {
+    secret: process.env.JWT_SIGNIN_PRIVATE_KEY,
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
   providers: [
     CredentialsProvider({
       name: 'AuthCredentials',

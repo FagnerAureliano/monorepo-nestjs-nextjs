@@ -9,6 +9,7 @@ export const userService = {
   login,
   findAll,
   findByID,
+  findByEmail,
   create,
   update,
   delete: _delete,
@@ -25,6 +26,13 @@ async function login({ email, password }: LoginProps) {
 async function findByID(id: string) {
   try {
     return await axios.get(`/users/${id}`);
+  } catch (error) {
+    return error;
+  }
+}
+async function findByEmail(email: string) {
+  try {
+    return await axios.get(`/users/email/${email}`);
   } catch (error) {
     return error;
   }

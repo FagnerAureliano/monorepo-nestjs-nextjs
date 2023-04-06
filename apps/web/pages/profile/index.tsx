@@ -3,9 +3,11 @@ import { Formik, Form, Field } from 'formik';
 import { useRouter } from 'next/router';
 import { userService } from '../../services/user-service';
 import { ToastContainer, toast } from 'react-toastify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Layout } from '../../components/layout';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { getSession, useSession } from 'next-auth/react';
+import { isRegExp } from 'util/types';
 
 export default function Profile() {
   const [avatarUrl, setAvatarUrl] = useState('https://robohash.org/1234');
@@ -32,21 +34,20 @@ export default function Profile() {
     email,
     password,
     newPassword,
-    passwordConfirm
+    passwordConfirm,
   }: IUpdate) {
-    console.log(
-      name,
-      email,
-      password,
-      newPassword,
-      passwordConfirm
-    );
+    console.log(name, email, password, newPassword, passwordConfirm);
 
     if (newPassword != passwordConfirm) {
       return toast.error('Erro ao cadastrar usuário. Password inválido.');
     }
     try {
-      const { status } = await userService.create({ name, email, password, newPassword });
+      const { status } = await userService.create({
+        name,
+        email,
+        password,
+        newPassword,
+      });
       if (status === 201) {
         toast.success('Cadastrado com sucesso !', {
           autoClose: 1000,
@@ -67,6 +68,19 @@ export default function Profile() {
     const response = await fetch(`https://robohash.org/${text}`);
     setAvatarUrl(response.url);
   };
+  
+  const { data: session } = useSession();
+
+console.log(session);
+
+  useEffect(() => {
+    const handleUser = async () => {
+      const user = await userService.findByEmail(session?.user?.email);
+      console.log(user);
+    };
+    handleUser();
+  });
+
   return (
     <>
       <Layout title="Profile">
@@ -74,6 +88,8 @@ export default function Profile() {
           <div className="max-w-md w-full text-center">
             <ToastContainer autoClose={2000} />
             <div className="space-y-4">
+              {/* {Array.from(Array(10).keys()).map((item) => (
+                // eslint-disable-next-line react/jsx-key */}
               <picture>
                 <img
                   className="mx-auto w-auto"
@@ -81,7 +97,7 @@ export default function Profile() {
                   alt="Workflow"
                 />
               </picture>
-
+              {/* ))} */}
               <button
                 className="text-gray-700 hover:text-white border border-gray-700 hover:bg-gray-800 focus:ring-1 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
                 onClick={generateAvatar}

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { compareSync } from 'bcrypt';
-import { IUser } from '../../application/interfaces/user.interface';
 import { FindUserUseCase } from '../../application/use-cases/users/find-user-use-case';
+import { UserRequest } from '../../application/interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +28,7 @@ export class AuthService {
     return data;
   }
   async validateUser(email: string, password: string) {
-    let user: IUser;
+    let user: UserRequest;
     try {
       user = await this.findUserService.findByEmail(email);
     } catch (error) {

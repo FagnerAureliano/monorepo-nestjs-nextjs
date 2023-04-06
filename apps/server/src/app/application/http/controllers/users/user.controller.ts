@@ -44,6 +44,13 @@ export class UserController {
   ): Promise<UserRequest> {
     return this.findUser.findById(id);
   }
+  @Get('/email/:email')
+  @UseGuards(AuthGuard('jwt'))
+  async findByEmail(
+    @Param('email') email: string
+  ): Promise<UserRequest> {
+    return this.findUser.findByEmail(email);
+  }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))

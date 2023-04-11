@@ -13,33 +13,36 @@ export class UpdateUserUseCase {
     email,
     name,
     photo,
+    role,
     password,
     newPassword,
   }: UpdateUserRequest) {
     const hasUser = await this.prisma.user.findFirst({
       where: {
-        id,
+        email,
       },
     });
     if (!hasUser) throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
-
-    const passwordMacth = await compare(password, hasUser?.password);
-
-    if (!passwordMacth)
-      throw new NotFoundException(MessagesHelper.EMAIL_OR_PASSWORD_INVALID);
-
+    
     let hashPassword: string;
 
-    if (newPassword) {
-      hashPassword = await hash(newPassword, 10);
-    } else {
-      hashPassword = await hash(password, 10);
+    if (password) {
+      const passwordMacth = await compare(password, hasUser?.password);
+
+      if (!passwordMacth)
+        throw new NotFoundException(MessagesHelper.EMAIL_OR_PASSWORD_INVALID);
+
+      if (newPassword) {
+        hashPassword = await hash(newPassword, 10);
+      } else {
+        hashPassword = await hash(password, 10);
+      }
     }
 
     try {
       return this.prisma.user.update({
         where: {
-          id,
+          email,
         },
         data: {
           email,

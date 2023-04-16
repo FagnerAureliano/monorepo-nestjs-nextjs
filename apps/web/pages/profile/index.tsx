@@ -16,6 +16,7 @@ import { Loading } from '../../components/loading';
 import { getToken } from 'next-auth/jwt';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../pages/api/auth/[...nextauth]';
+import { InferGetServerSidePropsType } from "next";
 
 interface IUpdate {
   id?: string;
@@ -28,7 +29,7 @@ interface IUpdate {
   passwordConfirm?: string;
 }
 
-export default function Profile({ data }: any) {
+export default function Profile({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [user, setUser] = useState<IUpdate | null>(data);
   const [avatarUrl, setAvatarUrl] = useState(
     user?.photo ? user.photo : 'https://robohash.org/1234'
@@ -70,6 +71,7 @@ export default function Profile({ data }: any) {
       const { status } = await userService.update({
         name,
         email,
+        photo: avatarUrl,
         password: password ? password : null,
         newPassword: newPassword ? newPassword : null,
       });
@@ -96,7 +98,7 @@ export default function Profile({ data }: any) {
     const response = await fetch(`https://robohash.org/${text}`);
     setAvatarUrl(response.url);
     setLoading(false);
-  };
+  }
 
   return (
     <>
@@ -227,7 +229,7 @@ export default function Profile({ data }: any) {
                         <input
                           type="password"
                           name="floating_passwordConfirm"
-                          id="floating_newPassword"
+                          id="floating_passwordConfirm"
                           className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                           placeholder=" "
                           required

@@ -1,7 +1,7 @@
 /* eslint-disable @nrwl/nx/enforce-module-boundaries */
 import { NextPage, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { Layout } from 'apps/web/components/layout';
 import { Table } from 'apps/web/components/table';
@@ -24,33 +24,58 @@ interface Props {
 
 const Clients: NextPage = ({
   data,
+  total,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const clients = data.data;
-  const total = data.total;
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [pagesToShow, setPagesToShow] = useState(3);
 
-  const [dataTable, setDataTable] = useState(clients);
+  const [dataTable, setDataTable] = useState(data);
   const [totalCount, setTotalCount] = useState(total);
   const { push } = useRouter();
+  const [loading, setLoading] = useState(false);
 
   async function handleDelete({ id }) {
     try {
+      setLoading(true);
       const { status } = await clientService.delete(id);
-
+  
       if (status === 204) {
         toast.success('Deletado com sucesso !', {
           autoClose: 1000,
           onClose: () => push('/clients'),
         });
-        const { data: response } = await handleFindAllClients();
-        setDataTable(response.data);
       }
     } catch (error) {
-      toast.error('Erro ao cadastrar cliente. Verifique os campos preenxidos.');
+      if (error.response) {
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log('Error', error.message);
+      }
+      toast.error('Erro ao deletar cliente.');
+    } finally {
+      setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!loading) {
+      handleFindAllClients().then(({ data: { data } }) => setDataTable(data));
+    }
+  }, [loading]);
+  useEffect(() => {
+    if (!dataTable) {
+      setLoading(true);
+    }else{
+      setLoading(false);
+    }
+  }, [dataTable]);
+
+
   async function handleFindAllClients(pageNumber?: number) {
     try {
       return ({ data } = await clientService.findAll(
@@ -71,10 +96,11 @@ const Clients: NextPage = ({
   async function handlePage(pageNumber: number) {
     setCurrentPage(pageNumber);
     try {
-      const { data } = await handleFindAllClients(pageNumber);
-      console.log(data);
+      const {
+        data: { data },
+      } = await handleFindAllClients(pageNumber);
 
-      setDataTable(data.data);
+      setDataTable(data);
     } catch (error) {
       toast.error('Erro interno.');
     }
@@ -83,10 +109,10 @@ const Clients: NextPage = ({
   return (
     <>
       <Layout title="Clients">
-        <div className='justify-end flex w-full pb-5'>
+        <div className="justify-end flex w-full pb-5">
           <button
             onClick={handleCreateClient}
-            className="group self-end relative w-2/4 flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="group self-end relative w-2/5 h-10 flex justify-center py-2 px-4 tex  border border-gray-600 text-sm font-medium rounded-md text-gray-600 bg-gray-100 hover:bg-gray-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
               <PlusIcon
@@ -98,7 +124,7 @@ const Clients: NextPage = ({
           </button>
         </div>
         <ToastContainer autoClose={2000} />
-        {dataTable ? (
+        {!loading ? (
           <>
             <Table
               data={dataTable}
@@ -127,9 +153,18 @@ const Clients: NextPage = ({
 export default Clients;
 
 export const getServerSideProps = async (ctx) => {
-  const { data } = await clientService.findAll();
+  try {
+    const {
+      data: { data, total },
+    } = await clientService.findAll();
 
-  return {
-    props: { data: data },
-  };
+    return {
+      props: { data, total },
+    };
+  } catch (error) {
+    console.error('Error fetching client data:', error);
+    return {
+      props: { data: [], total: 0 },
+    };
+  }
 };

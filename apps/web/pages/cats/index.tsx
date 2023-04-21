@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NextPage, InferGetServerSidePropsType } from 'next';
 import { Loading } from '../../components/loading';
 import { Layout } from '../../components/layout';
-import { getRandomCats } from '../../services/cats-random';
+import { getRandomCatImage } from '../../services/cats-random';
 import { userService } from '../../services/user-service';
 
 const Cats: NextPage = ({
@@ -13,7 +13,7 @@ const Cats: NextPage = ({
 
   async function handleRefresh() {
     setLoading(true);
-    const catImage = await getRandomCats();
+    const catImage = await getRandomCatImage();
     setCatImage(catImage);
     setLoading(false);
   }
@@ -65,14 +65,19 @@ const Cats: NextPage = ({
 export default Cats;
 
 export const getServerSideProps = async (context) => {
-  let data = await getRandomCats();
-
-  if (!data) {
-    data = JSON.stringify(data);
+  try {
+    const data = await getRandomCatImage(); 
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {
+        data: null,
+      },
+    };
   }
-  return {
-    props: {
-      data,
-    },
-  };
 };

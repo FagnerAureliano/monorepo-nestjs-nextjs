@@ -1,10 +1,15 @@
 import axios from 'axios';
 
-export async function getRandomCats() {
+export async function getRandomCatImage() {
   try {
-    const { data } = await axios.get('https://aws.random.cat/meow');
-    return data.file;
+    const response = await axios.get('https://cataas.com/cat', {
+      responseType: 'arraybuffer',
+    });
+    const base64 = Buffer.from(response.data, 'binary').toString('base64');
+    const image = `data:image/png;base64,${base64}`;
+    return image;
   } catch (error) {
-    return Error(error.message);
+    console.error(error.message);
+    throw new Error('Failed to get cat image');
   }
 }

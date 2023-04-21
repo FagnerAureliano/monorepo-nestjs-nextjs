@@ -12,7 +12,7 @@ import { getSession, signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
 
-const Login: NextPage = (props: any) => {
+const Login: NextPage = (props) => {
   const initialValues = {
     email: '',
     password: '',
@@ -102,10 +102,7 @@ const Login: NextPage = (props: any) => {
                   </Link>
                 </div>
                 <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-gray-600 hover:text-gray-500"
-                  >
+                  <a className="font-medium text-gray-600 hover:text-gray-500">
                     Esqueceu a senha?
                   </a>
                 </div>

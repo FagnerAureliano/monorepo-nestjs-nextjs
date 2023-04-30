@@ -16,14 +16,14 @@ O projeto SERVER utiliza Node.js. É responsável por conectar ao banco de dados
 #### Projeto (WEB) 
 O projeto WEB React utiliza o Next.js como framework e o NextAuth para implementar a autenticação no frontend. Além disso, o projeto utiliza o Tailwind CSS para estilização. O objetivo desse projeto é consumir a API fornecida pelo projeto Node.js. O projeto está configurado para rodar em modo de desenvolvimento com o seguinte comando: 
 
-#### Configuração
+###### Backend
 Crie um arquivo `.env` na raiz do projeto SERVER e adicione as seguintes variáveis de ambiente:
 
 ```
-DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5433/prisma"
 JWT_SECRET="segredo_do_jwt"
 ```
- 
+ ###### Frontend
  Crie um arquivo `.env` na raiz do projeto WEB e adicione as seguintes variáveis de ambiente:
 ```
 NEXTAUTH_URL="url da API"
@@ -31,9 +31,11 @@ JWT_SIGNIN_PRIVATE_KEY="segredo_do_jwt"
 NEXTAUTH_SECRET="segredo_do_next_auth"
 ```
 
- #### Execução
+###### Execução
 Para executar o servidor, execute o seguinte comando na raiz do projeto:
- 
-`npm run start:server`: URL do backend. http://localhost:3333/api/v1;
-`npm run start:web`: URL do frontend http://localhost:4200/
+
+`npm run start:db`: para iniciar o banco de dados PostgreSQL utilizando o `Docker Compose`. <br/>
+`npm run srart:prisma` para executar as migrações do banco de dados. <br/> 
+`npm run start:server`: URL do backend. http://localhost:3333/api/v1 <br/>
+`npm run start:web`: URL do frontend http://localhost:4200/<br/>
  

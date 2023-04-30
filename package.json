@@ -5,7 +5,10 @@
   "scripts": {
     "build": "nx run web:build",
     "start:server": "nx serve server",
-    "start:web": "nx serve web"
+    "start:web": "nx serve web",
+    "start:db":"docker-compose up",
+    "start:prisma":"cd apps/server && npx prisma migrate dev"
+
   },
   "private": true,
   "dependencies": {

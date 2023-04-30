@@ -1,5 +1,6 @@
 # MonorepoNestjsNextjs
-![Criaro por mim:](<https://img.shields.io/badge/Fagner_Aureliano-blue>);
+![Criaro por mim:](<https://img.shields.io/badge/Criado_por-Fagner_Aureliano-blue>)
+
 ![Mantenedor:](<https://img.shields.io/badge/Mantenedor-Fagner_Aureliano-blue>) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.0.0-green)
 
 <a href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
@@ -34,5 +35,6 @@ NEXTAUTH_SECRET="segredo_do_next_auth"
 Para executar o servidor, execute o seguinte comando na raiz do projeto:
  
 `npm run start:server`: para rodar o backend. http://localhost:3333/api/v1;
+
 `npm run start:web`: para rodar o frontend http://localhost:4200/
  

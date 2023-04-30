@@ -17,7 +17,7 @@ const TooltipConfirmation = ({ headerText, message, onConfirm }) => {
   };
 
   return (
-    <div className="relative ">
+    <>
       <button
         className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
         onClick={handleClick}
@@ -25,7 +25,7 @@ const TooltipConfirmation = ({ headerText, message, onConfirm }) => {
         <TrashIcon className="w-4 h-4" />
       </button>
       {showTooltip && (
-        <div className="fixed z-50 transform -translate-x-1/2 mt-2 px-4 py-2 bg-white border border-gray-200 rounded shadow-lg">
+        <div className="fixed right-1 z-50 w-96 transform -translate-x-1/2 mt-2 px-4 py-2  sm:right-0.5 bg-white border border-gray-200 rounded shadow-lg ">
           <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -62,7 +62,7 @@ const TooltipConfirmation = ({ headerText, message, onConfirm }) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

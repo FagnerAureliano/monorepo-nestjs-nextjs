@@ -7,9 +7,7 @@ import { Layout } from 'apps/web/components/layout';
 import { Table } from 'apps/web/components/table';
 import Pagination from 'apps/web/components/pagination';
 import { Loading } from 'apps/web/components/loading';
-import { Input } from 'apps/web/components/input';
 import { clientService } from '../../services/clients';
-import ModalConfirm from 'apps/web/components/tooltip-confirmation';
 import { PlusIcon } from '@heroicons/react/24/outline';
 
 const column = [
@@ -18,9 +16,6 @@ const column = [
   { heading: 'Phone', value: 'phone' },
   { heading: 'City', value: 'address.city' },
 ];
-interface Props {
-  data: any;
-}
 
 const Clients: NextPage = ({
   data,
@@ -39,7 +34,7 @@ const Clients: NextPage = ({
     try {
       setLoading(true);
       const { status } = await clientService.delete(id);
-  
+
       if (status === 204) {
         toast.success('Deletado com sucesso !', {
           autoClose: 1000,
@@ -70,11 +65,10 @@ const Clients: NextPage = ({
   useEffect(() => {
     if (!dataTable) {
       setLoading(true);
-    }else{
+    } else {
       setLoading(false);
     }
   }, [dataTable]);
-
 
   async function handleFindAllClients(pageNumber?: number) {
     try {
@@ -124,7 +118,12 @@ const Clients: NextPage = ({
           </button>
         </div>
         <ToastContainer autoClose={2000} />
-        {!loading ? (
+        {loading && (
+          <div className="h-52">
+            <Loading />
+          </div>
+        )}
+        {!loading && dataTable.length > 0 ? (
           <>
             <Table
               data={dataTable}
@@ -142,8 +141,10 @@ const Clients: NextPage = ({
             />
           </>
         ) : (
-          <div className="h-52">
-            <Loading />
+          <div className="mt-8 text-center">
+          <p className="text-lg font-medium mb-2">
+            Nenhum cliente cadastrado
+          </p>
           </div>
         )}
       </Layout>

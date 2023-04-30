@@ -1,5 +1,6 @@
 # MonorepoNestjsNextjs
-![Criaro por mim:](<https://img.shields.io/badge/Criado_por_mim-Fagner_Aureliano-blue>) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.0.0-green)
+![Criaro por mim:](<https://img.shields.io/badge/Fagner_Aureliano-blue>);
+![Mantenedor:](<https://img.shields.io/badge/Mantenedor-Fagner_Aureliano-blue>) ![Versão](https://img.shields.io/badge/Vers%C3%A3o-1.0.0-green)
 
 <a href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
@@ -18,20 +19,20 @@ O projeto WEB React utiliza o Next.js como framework e o NextAuth para implement
 Crie um arquivo .env na raiz do projeto SERVER e adicione as seguintes variáveis de ambiente:
 
 ```
-DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco"`
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco"
 JWT_SECRET="segredo_do_jwt"
 ```
  
  Crie um arquivo .env na raiz do projeto WEB e adicione as seguintes variáveis de ambiente:
 ```
 NEXTAUTH_URL="url da API"
-JWT_SIGNIN_PRIVATE_KEY="segredo_do_jwt"`
-NEXTAUTH_SECRET="segredo_do_next_auth"`
+JWT_SIGNIN_PRIVATE_KEY="segredo_do_jwt"
+NEXTAUTH_SECRET="segredo_do_next_auth"
 ```
 
  #### Execução
 Para executar o servidor, execute o seguinte comando na raiz do projeto:
-```
-`npm run start:server` // para rodar o backend. http://localhost:3333/api/v1.
-`npm run start:web`  //para rodar o frontend http://localhost:4200/.   
-```
+ 
+`npm run start:server`: para rodar o backend. http://localhost:3333/api/v1;
+`npm run start:web`: para rodar o frontend http://localhost:4200/
+ 

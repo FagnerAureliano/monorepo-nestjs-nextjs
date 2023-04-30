@@ -17,14 +17,14 @@ O projeto SERVER utiliza Node.js. É responsável por conectar ao banco de dados
 O projeto WEB React utiliza o Next.js como framework e o NextAuth para implementar a autenticação no frontend. Além disso, o projeto utiliza o Tailwind CSS para estilização. O objetivo desse projeto é consumir a API fornecida pelo projeto Node.js. O projeto está configurado para rodar em modo de desenvolvimento com o seguinte comando: 
 
 #### Configuração
-Crie um arquivo .env na raiz do projeto SERVER e adicione as seguintes variáveis de ambiente:
+Crie um arquivo `.env` na raiz do projeto SERVER e adicione as seguintes variáveis de ambiente:
 
 ```
 DATABASE_URL="postgresql://usuario:senha@localhost:5432/nome_do_banco"
 JWT_SECRET="segredo_do_jwt"
 ```
  
- Crie um arquivo .env na raiz do projeto WEB e adicione as seguintes variáveis de ambiente:
+ Crie um arquivo `.env` na raiz do projeto WEB e adicione as seguintes variáveis de ambiente:
 ```
 NEXTAUTH_URL="url da API"
 JWT_SIGNIN_PRIVATE_KEY="segredo_do_jwt"
@@ -34,7 +34,6 @@ NEXTAUTH_SECRET="segredo_do_next_auth"
  #### Execução
 Para executar o servidor, execute o seguinte comando na raiz do projeto:
  
-`npm run start:server`: para rodar o backend. http://localhost:3333/api/v1;
-
-`npm run start:web`: para rodar o frontend http://localhost:4200/
+`npm run start:server`: URL do backend. http://localhost:3333/api/v1;
+`npm run start:web`: URL do frontend http://localhost:4200/
  

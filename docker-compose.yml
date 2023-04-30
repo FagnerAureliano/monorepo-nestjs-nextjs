@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  postgres:
+    container_name: postgres_nx
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=prisma
+    volumes:
+      - 'pgdata:/var/lib/postgres/data'
+    ports:
+      - '5433:5432'
+networks:
+  postgres:
+    driver: bridge
+volumes:
+  pgdata: null
